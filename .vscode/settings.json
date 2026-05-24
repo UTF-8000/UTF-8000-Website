@@ -1,0 +1,11 @@
+{
+  "liveServer.settings.root": "/src",
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "prettier.printWidth": 99999
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "prettier.printWidth": 99999
+  }
+}
