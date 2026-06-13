@@ -8,12 +8,21 @@ h3 {
   text-decoration: underline double;
 }
 
+th {
+  padding-inline-end: 1em;
+  text-align: start;
+}
+
 td {
   vertical-align: top;
 }
 
-p {
+p, li {
   max-width: 80ch;
+}
+
+img {
+  max-width: 100%;
 }
 
 details summary {
@@ -22,34 +31,44 @@ details summary {
   text-decoration: underline double;
 }
 
-.utf-8000-bits, .utf-8000-byte {
+.utf-8000-bits,
+.utf-8000-byte {
   /* font-family: monospace; */
-  font-family: "Courier New", Courier, monospace;
+  /* font-family: "Courier New", Courier, monospace; */
   background-color: dimgray;
   margin-inline: 0ch;
   padding-inline: 1ch;
   text-wrap-mode: nowrap;
 }
 
-.utf-8000-continuation-prefix-bits {
+.utf-8000-bits-self-sync-first {
   font-weight: bold;
   color: cyan;
 }
 
-.utf-8000-y-bits {
+.utf-8000-bits-self-sync-continuation {
+  font-weight: bold;
+  color: cyan;
+}
+
+.utf-8000-bits-z {
   color: orange;
 }
 
-.utf-8000-start-bits {
+.utf-8000-bits-start {
   font-weight: bold;
   color: magenta;
 }
 
-.utf-8000-mandatory-content-bits {
+.utf-8000-bits-content-mandatory {
   font-weight: bold;
   color: lime;
 }
 
-.utf-8000-optional-content-bits {
+.utf-8000-bits-content-optional {
   color: lime;
+}
+
+.utf-8000-bits-unknown {
+  color: white;
 }

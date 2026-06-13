@@ -21,14 +21,9 @@
     <p>Unlimited UTF-8!</p>
     <p>ASCII ⊆ UTF-8 ⊆ UTF-8000</p>
     <p>No special cases introduced.</p>
-    <details open="true">
-      <summary>TLDR Examples</summary>
+    <details id="sec-tldr" open="true">
+      <summary>TLDR / Examples</summary>
       <table>
-        <thead>
-          <tr>
-            <th>n-bytes</th>
-          </tr>
-        </thead>
         <tbody>
           <tr>
             <td>ASCII</td>
@@ -36,9 +31,7 @@
           <tr>
             <td>1</td>
             <td>
-              <code class="utf-8000-byte utf-8000-non-continuation-byte">
-                <code class="utf-8000-start-bits">0</code><code class="utf-8000-optional-content-bits">xxxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">xxxxxxx</span></code>
             </td>
           </tr>
           <tr>
@@ -47,64 +40,37 @@
           <tr>
             <td>2</td>
             <td>
-              <code class="utf-8000-byte utf-8000-non-continuation-byte">
-                <code class="utf-8000-start-bits">110</code><code class="utf-8000-mandatory-content-bits">xxxx</code
-                ><code class="utf-8000-optional-content-bits">x</code></code
-              >
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">xxxx</span><span class="utf-8000-bits-content-optional">x</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
           </tr>
           <tr>
             <td>3</td>
             <td>
-              <code class="utf-8000-byte utf-8000-non-continuation-byte">
-                <code class="utf-8000-start-bits">1110</code><code class="utf-8000-mandatory-content-bits">xxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">xxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-mandatory-content-bits">x</code
-                ><code class="utf-8000-optional-content-bits">xxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">x</span><span class="utf-8000-bits-content-optional">xxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
           </tr>
           <tr>
             <td>4</td>
             <td>
-              <code class="utf-8000-byte utf-8000-non-continuation-byte">
-                <code class="utf-8000-start-bits">11110</code><code class="utf-8000-mandatory-content-bits">xxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">xxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-mandatory-content-bits">xx</code
-                ><code class="utf-8000-optional-content-bits">xxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xx</span><span class="utf-8000-bits-content-optional">xxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
           </tr>
           <tr>
@@ -113,288 +79,154 @@
           <tr>
             <td>5</td>
             <td>
-              <code class="utf-8000-byte utf-8000-non-continuation-byte">
-                <code class="utf-8000-start-bits">111110</code><code class="utf-8000-mandatory-content-bits">xx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">1110</span><span class="utf-8000-bits-content-mandatory">xx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-mandatory-content-bits">xxx</code
-                ><code class="utf-8000-optional-content-bits">xxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxx</span><span class="utf-8000-bits-content-optional">xxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
           </tr>
           <tr>
             <td>6</td>
             <td>
-              <code class="utf-8000-byte utf-8000-non-continuation-byte">
-                <code class="utf-8000-start-bits">1111110</code><code class="utf-8000-mandatory-content-bits">x</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">11110</span><span class="utf-8000-bits-content-mandatory">x</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-mandatory-content-bits">xxxx</code
-                ><code class="utf-8000-optional-content-bits">xx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxx</span><span class="utf-8000-bits-content-optional">xx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
           </tr>
           <tr>
             <td>7</td>
             <td>
-              <code class="utf-8000-byte utf-8000-non-continuation-byte">
-                <code class="utf-8000-start-bits">11111110</code><code class="utf-8000-optional-content-bits"></code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111110</span><span class="utf-8000-bits-content-optional"></span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-mandatory-content-bits">xxxxx</code
-                ><code class="utf-8000-optional-content-bits">x</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxxx</span><span class="utf-8000-bits-content-optional">x</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
           </tr>
           <tr>
             <td>8</td>
             <td>
-              <code class="utf-8000-byte utf-8000-non-continuation-byte">
-                <code class="utf-8000-start-bits">11111111</code><code class="utf-8000-optional-content-bits"></code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111111</span><span class="utf-8000-bits-content-optional"></span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code><code class="utf-8000-start-bits">0</code
-                ><code class="utf-8000-mandatory-content-bits">xxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">xxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
           </tr>
           <tr>
             <td>9</td>
             <td>
-              <code class="utf-8000-byte utf-8000-non-continuation-byte">
-                <code class="utf-8000-start-bits">11111111</code><code class="utf-8000-optional-content-bits"></code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111111</span><span class="utf-8000-bits-content-optional"></span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code><code class="utf-8000-start-bits">10</code
-                ><code class="utf-8000-mandatory-content-bits">xxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">xxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-mandatory-content-bits">x</code
-                ><code class="utf-8000-optional-content-bits">xxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">x</span><span class="utf-8000-bits-content-optional">xxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
           </tr>
           <tr>
             <td>10</td>
             <td>
-              <code class="utf-8000-byte utf-8000-non-continuation-byte">
-                <code class="utf-8000-start-bits">11111111</code><code class="utf-8000-optional-content-bits"></code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111111</span><span class="utf-8000-bits-content-optional"></span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code><code class="utf-8000-start-bits">110</code
-                ><code class="utf-8000-mandatory-content-bits">xxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">xxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-mandatory-content-bits">xx</code
-                ><code class="utf-8000-optional-content-bits">xxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xx</span><span class="utf-8000-bits-content-optional">xxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
           </tr>
           <tr>
@@ -403,63 +235,35 @@
           <tr>
             <td>22</td>
             <td>
-              <code class="utf-8000-byte utf-8000-non-continuation-byte">
-                <code class="utf-8000-start-bits">11111111</code><code class="utf-8000-optional-content-bits"></code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111111</span><span class="utf-8000-bits-content-optional"></span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code><code class="utf-8000-start-bits">111111</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-start">111111</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code><code class="utf-8000-start-bits">111111</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-start">111111</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code><code class="utf-8000-start-bits">110</code
-                ><code class="utf-8000-mandatory-content-bits">xxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">xxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-mandatory-content-bits">xx</code
-                ><code class="utf-8000-optional-content-bits">xxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xx</span><span class="utf-8000-bits-content-optional">xxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
             <td>...</td>
             <td>
-              <code class="utf-8000-byte utf-8000-continuation-byte">
-                <code class="utf-8000-continuation-prefix-bits">10</code
-                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
-              </code>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
             </td>
           </tr>
           <tr>
@@ -467,26 +271,24 @@
           </tr>
         </tbody>
       </table>
+      <p>There is nothing special-case-y about the example 22-byte code unit here. It is just a good prototypical example, demonstrating the power of UTF-8000 with multiple start bytes.</p>
+      <p>There are only two special cases, both of which are inherited from UTF-8: ASCII as is, and 2-byte UTF-8 having 4 mandatory content bits to check against overlong encoding as opposed to 5 for all longer length code units.</p>
+    </details>
+    <details id="sec-anatomy" open="true">
+      <summary>Anatomy</summary>
+      <p>Here is anatomical diagram of the example 22-byte code unit from the <a href="#sec-tldr">tldr</a>.</p>
+      <p>See the <a href="#sec-glossary">glossary</a> for more information on the definitions of the terms.</p>
+      <p>Byte number four is exciting! It is a continuation byte, a start byte, the final start byte, has content bits, and has only some of the mandatory content bits, which are straddled across the final start byte and first non-start byte.</p>
+      <img src="/code-unit-anatomy.blanchedalmond.png" />
       <p>
-        The 22-byte example here has many start bytes, demonstrating the power of UTF-8000. There is nothing special
-        about it.
-      </p>
-      <p>
-        There are only two special cases, both of which are inherited from UTF-8: ASCII and 2-byte UTF-8. See
-        <a href="#properties">#properties</a>
+        The main contribution of UTF-8000's specification is clarity on splitting the highest bits of the
+        <u>first byte</u> of UTF-8 <u>code units</u> into <u style="color: cyan">self-synchronization bits</u> and <u style="color: magenta">start bits</u>, and then making it clear how to stripe the <u>start bits</u> across the <u>continuation bytes</u> if needed, to achieve arbitrarily large <u>code units</u>.
       </p>
     </details>
-    <details id="properties" open="true">
-      <summary>Properties of UTF-8000</summary>
-      <p>Preserved from UTF-8</p>
-      <p>ASCII (1 byte UTF-8000) has 7 bits of content and 0 mandatory content bits.</p>
-      <p>
-        2-byte UTF-8 (2 byte UTF-8000) has 11 bits of content (which is not a special case), but only 4 mandatory
-        content bits.
-      </p>
-    </details>
-    <details open="true">
-      <summary>Glossary / Byte Anatomy / Implications</summary>
+    <details id="sec-glossary" open="true">
+      <summary>Glossary</summary>
+      <p>These terms are ordered somewhat by chronology of first requirement, rather than alphabetically, for convenience.</p>
+      <p>Terms used within definitions are <u>underlined</u>.</p>
       <table>
         <thead>
           <tr>
@@ -495,308 +297,814 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr id="def-codepoint">
+            <td><p>Codepoint</p></td>
+            <td><p>A non-negative integer, aka an unsigned integer.</p></td>
+          </tr>
+          <tr id="def-code-unit">
             <td><p>Code Unit</p></td>
             <td>
-              <p>A collection of UTF-8000 bytes that encode a single codepoint.</p>
+              <p>A sequence of UTF-8000 bytes that encode a single <u>codepoint</u>.</p>
             </td>
           </tr>
-          <tr>
+          <tr id="def-first-byte">
             <td><p>First Byte</p></td>
             <td>
+              <p>The first, one and only, byte that begins a UTF-8000 <u>code unit</u>.</p>
               <p>
-                The first, one and only, byte that begins a UTF-8000 Code Unit. We can tell that a byte is a First Byte
-                because it does not begin with the Continuation Byte's characterizing prefix
-                <code class="utf-8000-bits"><code class="utf-8000-continuation-prefix-bits">10</code></code
-                >. This is part of what makes UTF-8 and UTF-8000 Self Synchronizing; we know where a Code Unit starts.
+                The <u>self-synchronization prefix</u> of a <u>first byte</u> is either
+                <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code>
+                for ASCII or
+                <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">11</span></code>
+                for multi-byte <u>code units</u>.
               </p>
-              <p>This term is also known as <u>First Start Byte</u>.</p>
-              <p>This term is mutually exclusive with Continuation Byte.</p>
-              <p>This term is <b>not</b> synonymous with Start Byte.</p>
+              <!-- <p>This term is also known as <u>first start byte</u> or <u>non-continuation byte</u>.</p> -->
+              <p>This term is <b>not</b> synonymous with <u>start byte</u>. A <u>first byte</u> is necessarily a <u>start byte</u>, but not the other way around. It is for this reason that <u>first byte</u> is sometimes also known as <u>first start byte</u>.</p>
+              <p>
+                Fun observation: because of the <u>self-synchronization prefix</u>
+                <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code>
+                the upper hex nibble of ASCII bytes can only be one of <code>0</code>, <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, <code>5</code>, <code>6</code>, <code>7</code>.
+              </p>
+              <p>This term is mutually exclusive with <u>continuation byte</u> due to <u>self-synchronization</u>.</p>
             </td>
           </tr>
-          <tr>
+          <tr id="def-continuation-byte">
             <td><p>Continuation Byte</p></td>
             <td>
+              <p>A byte beyond the <u>first byte</u> of a multi-byte UTF-8000 <u>code unit</u>.</p>
               <p>
-                A byte beyond the <u>First Byte</u> of a UTF-8000 Code Unit. It is characterized by its highest bits
-                being
-                <code class="utf-8000-bits"><code class="utf-8000-continuation-prefix-bits">10</code></code>
-                giving it the form
-                <code class="utf-8000-byte utf-8000-continuation-byte">
-                  <code class="utf-8000-continuation-prefix-bits">10</code
-                  ><code class="utf-8000-y-bits">yyyyyy</code></code
-                >. The <code class="utf-8000-bits"><code class="utf-8000-y-bits">y</code></code> bits may be Start Bits,
-                Content Bits, or Mandatory Content Bits depending on the context of where that Continuation Byte is in
-                its Code Unit.
+                The <u>self-synchronization prefix</u> of a <u>continuation byte</u> is <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-continuation">10</span></code
+                >, which is also known as the <u>continuation prefix bits</u>.
               </p>
-              <p>This term is mutually exclusive with First Byte.</p>
               <p>
-                The continuation prefix bits are highlighted in
-                <span class="utf-8000-continuation-prefix-bits">bright cyan</span>.
+                Fun observation: because of the <u>self-synchronization prefix</u>
+                <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-continuation">10</span></code>
+                the upper hex nibble of <u>continuation bytes</u> can only be one of <code>8</code>, <code>9</code>, <code>A</code>, <code>B</code>.
               </p>
+              <p>This term is mutually exclusive with <u>first byte</u> due to <u>self-synchronization</u>.</p>
             </td>
           </tr>
-          <tr>
+          <tr id="def-self-synchronization-prefix">
+            <td>
+              <p>Self-Synchronization Prefix</p>
+            </td>
+            <td>
+              <p>The highest bits of every UTF-8000 byte that indicate whether it is a <u>first byte</u> or a <u>continuation byte</u>.</p>
+              <p>The possible <u>self-synchronization prefixes</u> form a prefix-free tree:</p>
+              <pre><code>
+.----<code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code>              First byte for ASCII
+`----<code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">1</span></code>---<code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code> Continuation byte for multi-byte UTF-8000
+      `----<code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">1</span></code>        First byte for multi-byte UTF-8000
+              </code></pre>
+              <p>
+                This piece of the clever architecture of UTF-8, which UTF-8000 inherits, provides the property of
+                <u>self-synchronization</u> at a byte level: we can instantaneously tell what kind of byte we are looking at, and where it should belong in a code unit, just by looking at these highest bits.
+              </p>
+              <p>
+                This is most useful when decoding part of a file encoded in UTF-8000. If we randomly seek through the file to an arbitrary byte, we can unambiguously tell whether we are at a <u>first byte</u> whence we can begin decoding a new <u>code unit</u> immediately, or that we are at a <u>continuation byte</u> whence we need to seek a little further on in order to find the next <u>first byte</u> in order to begin decoding. Nor do we have to process any bytes prior to our seek position in order to discover some global state or the context of the byte we have seek-ed to; a <u>first byte</u> is always unambiguously a <u>first byte</u> wherever it appears, which we can deduce by its <u>self synchronization prefix</u> being either <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code> or <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">11</span></code
+                >.
+              </p>
+              <p>This is useful not only for random access, but also for error recovery. Suppose that we are decoding an error-prone stream of UTF-8000 bytes and that whenever when we encounter an error (e.g. a rogue 0xC0 byte) we wish to <q>keep calm and carry on</q> instead of immediately exiting. We can yield Unicode replacement characters <code>U+FFFD</code> <q>&#xFFFD;</q> and then await the next <u>first byte</u>, discarding anything in the interim.</p>
+              <p>
+                See the Wikipedia article for
+                <a href="https://en.wikipedia.org/wiki/Self-synchronizing_code">self-synchronizing code</a> for more general info.
+              </p>
+              <p>These bits are highlighted in <span class="utf-8000-bits-self-sync-continuation">bright cyan</span>.</p>
+            </td>
+          </tr>
+          <tr id="def-start-byte">
             <td><p>Start Byte</p></td>
             <td>
-              <p>
-                A byte containing one or more <u>Start Bits</u>. Start Bytes exist contiguously at the beginning of a
-                UTF-8000 Code Unit. The power of UTF-8000 is that we can have many Start Bytes, to achieve arbitrary
-                Code Unit lengths, to encode arbitrarily large Codepoints.
-              </p>
-              <p>
-                Every Code Unit has at least one start byte. The first Start Byte is the First Byte, and is followed by
-                zero or more Continuation Bytes that are Start Bytes. Because a UTF-8000 Code Unit can have multiple
-                Start Bytes, this term is <b>not</b> synonymous with First Byte.
-              </p>
+              <p>A byte containing one or more <u>start bits</u>. The <u>start bytes</u> exist contiguously at the beginning of a UTF-8000 <u>code unit</u>. The power of UTF-8000 is that we can have multiple <u>start bytes</u>, to achieve arbitrary <u>code unit</u> lengths, to encode arbitrarily large <u>codepoints</u>.</p>
+              <p>Sometimes it is sensible to colloquially also include ASCII as a <u>start byte</u> when we are talking about the bytes towards the start of a code unit, even though ASCII bytes have no <u>start bits</u>.</p>
+              <p>Every non-ASCII <u>code unit</u> has at least one <u>start byte</u>. The first <u>start byte</u> is the <u>first byte</u>, and it is followed by zero or more <u>continuation bytes</u> that are also <u>start bytes</u>. Therefore because a UTF-8000 <u>code unit</u> can have multiple <u>start bytes</u>, this term is <b>not</b> synonymous with <u>first byte</u>.</p>
               <p>
                 In restricting to only UTF-8 without UTF-8000, this term
-                <em>is</em> synonymous with First Byte. This is because UTF-8 Code Units only require one Start Byte,
-                whether using up to 4 bytes in the current UTF-8 standard (<a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://datatracker.ietf.org/doc/html/rfc3629"
-                  >RFC 3629</a
-                >
-                (2003)), or using up to 6 bytes in former standards (<a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://datatracker.ietf.org/doc/html/rfc2044"
-                  >RFC 2044</a
-                >
+                <em>is</em> synonymous with <u>first byte</u>. This is because UTF-8-length <u>code units</u> only require one <u>start byte</u>, whether using up to 4 bytes in the current UTF-8 standard (<a href="https://datatracker.ietf.org/doc/html/rfc3629">RFC 3629</a> (2003)), or using up to 6 bytes in former standards (<a href="https://datatracker.ietf.org/doc/html/rfc2044">RFC 2044</a>
                 (1996) and
-                <a target="_blank" rel="noopener noreferrer" href="https://datatracker.ietf.org/doc/html/rfc2279"
-                  >RFC 2279</a
-                >
+                <a href="https://datatracker.ietf.org/doc/html/rfc2279">RFC 2279</a>
                 (1998)).
               </p>
             </td>
           </tr>
-          <tr>
+          <tr id="def-start-bits">
             <td><p>Start Bits</p></td>
             <td>
+              <p>The unary-code sequence of bits contained in the <u>start bytes</u> of a multi-byte UTF-8000 <u>code unit</u> that tells us the length of the <u>code unit</u> in bytes.</p>
               <p>
-                The block of Y Bits at the beginning of a UTF-8000 Code Unit that are all
-                <code class="utf-8000-bits"><code class="utf-8000-start-bits">1</code></code> bits, and the first
-                <code class="utf-8000-bits"><code class="utf-8000-start-bits">0</code></code> bit that terminates these
-                ones. To be clear, the Start Bits includes this terminating zero bit.
-              </p>
-              <p>
-                For an ASCII Code Unit the Start Bits sequence is
-                <code class="utf-8000-bits"><code class="utf-8000-start-bits">0</code></code
-                >, a single zero bit in the highest bit of the First Byte. This characterizes ASCII bytes into the form
-                <code class="utf-8000-byte utf-8000-non-continuation-byte">
-                  <code class="utf-8000-start-bits">0</code
-                  ><code class="utf-8000-optional-content-bits">xxxxxxx</code></code
+                For a <u>code unit</u> made of <code>n</code> bytes the <u>start bits</u> are <code>n-2</code> <code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code> bits followed by a terminating <code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code> bit. To be clear, the <u>start bits</u> include this terminating zero bit. Thus the <u>start bits</u> sequence is of length <code>n-1</code> and looks like <code class="utf-8000-bits"><span class="utf-8000-bits-start">111...10</span></code
                 >.
               </p>
+              <p>The possible <u>start bits</u> sequences form a prefix-free tree:</p>
+              <pre><code>
+.----<code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code>                    Two byte UTF-8
+`----<code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code>---<code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code>            Three byte UTF-8
+      `----<code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code>---<code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code>       Four byte UTF-8
+            `----<code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code>---<code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code> Five byte UTF-8000
+                  `----...    n byte UTF-8000
+              </code></pre>
+              <p>For an <code>n</code> byte <u>code unit</u> where <code>n < 8</code> the <u>start bits</u> all fit together snugly in the <u>first byte</u>. Otherwise they are striped across as many of the first few bytes as they need, filling the free bits that are not occupied by <u>continuation prefix bits</u>.</p>
               <p>
-                For a non-ASCII Code Unit, made of <code>n</code> bytes, the Start Bits are <code>n</code>
-                <code class="utf-8000-bits"><code class="utf-8000-start-bits">1</code></code> bits followed by a
-                terminating <code class="utf-8000-bits"><code class="utf-8000-start-bits">0</code></code> bit. Thus the
-                Start Bits sequence is of length <code>n+1</code> and is of the form
-                <code class="utf-8000-bits"><code class="utf-8000-start-bits">111...10</code></code
-                >.
+                This is another piece of the clever architecture of UTF-8, which UTF-8000 inherits, that provides the property of <u>self-punctuation</u> also known as a <q>prefix code</q> or a <q>prefix-free code</q>: when decoding a multi-byte <u>code unit</u>, once we have read to the end of the <u>start bytes</u>, that is we have encountered the terminating <code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code> bit, we know exactly how many bytes we expect in that <u>code unit</u>. Notwithstanding errors we can therefore succeed in decoding the <u>code unit</u> by reading exactly that many bytes, and no more.
               </p>
+              <p>This avoids a problem of dumber variable-length encodings whose <u>code units</u> do not intrinsically indicate their length: one has to read beyond the last byte of a <u>code unit</u>, that is one reads the <u>first byte</u> of the next <u>code unit</u>, in order to know that the current <u>code unit</u> has finished. For very dumb encodings which have neither <u>self-synchronization</u> nor <u>self-punctuation</u>, to make random access possible one would have to put dedicated auxiliary bytes, <q>punctuation</q> like a comma byte, between <u>code units</u> to be able to tell where one ends and another begins.</p>
               <p>
-                The Start Bits are part of what makes UTF-8 and UTF-8000 Self Synchronizing; we know how many bytes we
-                expect in a Code Unit.
+                See the Wikipedia articles for
+                <a href="https://en.wikipedia.org/wiki/Prefix_code">prefix code</a> and <a href="https://en.wikipedia.org/wiki/Unary_coding">unary coding</a> for more general info.
               </p>
-              <p>This term is mutually exclusive with <u>Content Bits</u>.</p>
-              <p>These bits are highlighted in <span class="utf-8000-start-bits">bright magenta</span>.</p>
+              <p>This term is mutually exclusive with <u>content bits</u>.</p>
+              <p>These bits are highlighted in <span class="utf-8000-bits-start">bright magenta</span>.</p>
             </td>
           </tr>
-          <tr>
+          <tr id="def-content-byte">
             <td><p>Content Byte</p></td>
             <td>
-              <p>A byte containing one or more Content Bits.</p>
+              <p>A byte containing one or more <u>content bits</u>.</p>
               <p>
-                A byte being a Content Byte does not imply that it is a Continuation Byte, as for example a 3-byte Code
-                Unit begins with
-                <code class="utf-8000-byte utf-8000-non-continuation-byte">
-                  <code class="utf-8000-start-bits">1110</code
-                  ><code class="utf-8000-mandatory-content-bits">xxxx</code></code
-                >, which is not a Continuation Byte, and contains 4 Content Bits.
+                A byte being a <u>content byte</u> does not imply that it is a <u>continuation byte</u>. For example a 3-byte <u>code unit</u> begins with <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">xxxx</span></code
+                >, which contains 4 <u>content bits</u> and is not a <u>continuation byte</u>.
               </p>
               <p>
-                A byte being a Continuation Byte does not imply that it is a Content Byte, as for example a 22-byte Code
-                Unit contains
-                <code class="utf-8000-byte utf-8000-continuation-byte">
-                  <code class="utf-8000-continuation-prefix-bits">10</code
-                  ><code class="utf-8000-start-bits">111111</code></code
-                >
-                as its second byte.
+                A byte being a <u>continuation byte</u> does not imply that it is a <u>content byte</u>. For example a 22-byte <u>code unit</u> contains
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-start">111111</span></code>
+                as its second byte, which is a <u>continuation byte</u> and has no <u>content bits</u>.
               </p>
             </td>
           </tr>
-          <tr>
+          <tr id="def-content-bits">
             <td><p>Content Bits</p></td>
             <td>
               <p>
-                The block of Y bits in a Code Unit beyond the <u>Start Bits</u>, in which the <u>Codepoint</u>'s binary
-                bits are stored. For example a 2-byte <u>Code Unit</u>, which has the form
-                <code class="utf-8000-byte utf-8000-non-continuation-byte">
-                  <code class="utf-8000-start-bits">110</code><code class="utf-8000-mandatory-content-bits">xxxx</code
-                  ><code class="utf-8000-optional-content-bits">x</code></code
-                >
-                <code class="utf-8000-byte utf-8000-continuation-byte">
-                  <code class="utf-8000-continuation-prefix-bits">10</code
-                  ><code class="utf-8000-optional-content-bits">xxxxxx</code></code
-                >, has 11 <u>Content Bits</u>.
+                The sequence of bits in a <u>code unit</u> beyond the <u>start bits</u> and to the end of the <u>code unit</u>, in which the <u>codepoint</u>'s binary bits are stored. For example a 3-byte <u>code unit</u>, which has the form
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">xxxx</span></code>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">x</span><span class="utf-8000-bits-content-optional">xxxxx</span></code>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code
+                >, has 16 <u>content bits</u>.
               </p>
-              <p>This term is mutually exclusive with <u>Start Bits</u>.</p>
               <p>
-                These bits are highlighted in <span class="utf-8000-optional-content-bits">lime</span>, or
-                <span class="utf-8000-mandatory-content-bits">bright lime</span> if they are
-                <u>Mandatory Content Bits</u>.
+                For ASCII there are 7 <u>content bits</u>. These seven bits <code class="utf-8000-bits"><span class="utf-8000-bits-content-optional">xxxxxxx</span></code> combined with a byte's highest bit being set to the <u>self-synchronization prefix</u> <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code> means that ASCII is perfectly included into UTF-8 without being altered. Thus ASCII <u>code units</u> take the form <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">xxxxxxx</span></code
+                >.
               </p>
+              <p>Otherwise for an <code>n</code> byte <u>code unit</u>, where <code>n &gt; 1</code>, there are <code>5n+1</code> <u>content bits</u>. This is how we arrive at that formula: We start with <code>n</code> blank bytes, each of which has <code>8</code> bits. For each byte <code>2</code> bits are taken by the <u>self synchronization prefix</u>. Then an additional <code>n-1</code> bits are taken by the <u>start bits</u>. Thus there are <code>8n - 2n - (n-1) = 5n+1</code> bits left for <u>content bits</u>. Another way to think about the <code>5</code> in this formula is by extending from <code>n-1</code> bytes to <code>n</code> bytes by appending another <u>continuation byte</u>. By doing this we gain <code>6</code> free bits in the <u>continuation byte</u>, but we lose <code>1</code> bit to the longer <u>start bits</u> sequence, thus overall we gain <code>6-1 = 5</code> bits for <u>content bits</u>.</p>
+              <p>This term is mutually exclusive with <u>start bits</u>.</p>
+              <p>These bits are highlighted in <span class="utf-8000-bits-content-optional">lime</span>.</p>
             </td>
           </tr>
-          <tr>
+          <tr id="def-mandatory-content-byte">
             <td><p>Mandatory Content Byte</p></td>
             <td>
-              <p>A byte containing one or more <u>Mandatory Content Bits</u>.</p>
+              <p>A byte containing one or more <u>mandatory content bits</u>.</p>
+              <p>These are the bytes we check for <u>overlong encoding</u> when decoding a <u>code unit</u>.</p>
             </td>
           </tr>
-          <tr>
+          <tr id="def-mandatory-content-bits">
             <td><p>Mandatory Content Bits</p></td>
             <td>
               <p>
-                The first zero, four, or five <u>Content Bits</u> of a <u>Code Unit</u> in which there must be at least
-                one <code class="utf-8000-bits"><code class="utf-8000-mandatory-content-bits">1</code></code> bit, lest
-                the bytes be an <u>Overlong Encoding</u>, which is forbidden.
+                The first 0, 4, or 5 <u>content bits</u> of a <u>code unit</u> in which there must be at least one <code class="utf-8000-bits"><span class="utf-8000-bits-content-mandatory">1</span></code> bit, lest the bytes form an <u>overlong encoding</u>, which is forbidden.
               </p>
-              <p>For ASCII there are none.</p>
-              <p>For 2-byte UTF-8000 there are four.</p>
-              <p>Otherwise for n-byte UTF-8000, where <code>n &gt; 2</code>, there are five. XXX EXPLAIN WHY.</p>
+              <p>For ASCII there are 0 <u>mandatory content bits</u>, and thus no anti-<u>overlong</u> checking is required. This is because ASCII is the smallest possible code unit.</p>
+              <p>For 2-byte UTF-8000 there are 4 <u>mandatory content bits</u>. This is because in the jump from 1-byte ASCII to 2-byte UTF-8 we jump from 7 <u>content bits</u> to 11 <u>content bits</u>. Thus the number of <u>content bits</u> we gain is 11 minus 7 which is 4.</p>
+              <p>Otherwise for <code>n</code> byte UTF-8000, where <code>n &gt; 2</code>, there are 5 <u>mandatory content bits</u>. This is because in the jump from <code>n-1</code> byte UTF-8000 to <code>n</code> byte UTF-8000 we add on an extra continuation byte, which has 6 free bits, but we lose 1 bit to the longer <u>start bits</u> sequence. Thus overall the number of <u>content bits</u> we gain is 6 minus 1 which is 5.</p>
+              <p>Read about <u>overlong encoding</u> for why <u>mandatory content bits</u> are of interest.</p>
+              <p>These bits are highlighted in <span class="utf-8000-bits-content-mandatory">bright lime</span>.</p>
             </td>
           </tr>
-          <tr>
+          <tr id="def-overlong-encoding">
             <td><p>Overlong Encoding</p></td>
             <td>
-              <p>Forbidden XXX.</p>
+              <p>Forbidden <q>encodings</q> of <u>codepoints</u> that could be encoded correctly in UTF-8000 using a shorter <u>code unit</u>.</p>
+              <p>
+                For example one could incorrectly try to encode the <u>codepoint</u> 0x41, 65, ASCII capital A, using 2-byte UTF-8 as
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">0000</span><span class="utf-8000-bits-content-optional">1</span></code>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">000001</span></code
+                >. Observe that all the <u>mandatory content bits</u> are <code class="utf-8000-bits"><span class="utf-8000-bits-content-mandatory">0</span></code> which is the definition an <u>overlong encoding</u>. This indicates that we could have encoded 0x41 in a shorter <u>code unit</u>, in this case as ASCII <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-optional">1000001</span></code
+                >.
+              </p>
+              <p>
+                Security is one main reason why we forbid <u>overlong encoding</u>. For example we ensure that
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">0000</span></code>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">0</span><span class="utf-8000-bits-content-optional">00000</span></code>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">000000</span></code>
+                cannot be decoded as <u>codepoint</u> 0, the null <q>byte</q>, lest one speciously pass such an overlong <q>byte</q> (<q><u>code unit</u></q
+                >) to C functions like <code>strcpy(3)</code> and friends. <code>strcpy</code> would not interpret this <q><u>code unit</u></q> as a null byte, leading to a segfault at best, and serious vulnerabilities at least-worst.
+              </p>
+              <p>Uniqueness of encoding is another reason why we forbid <u>overlong encoding</u>. Every <u>codepoint</u> has one unique valid representation as a UTF-8000 <u>code unit</u>, which is easy to encode and decode using bitshifting.</p>
+              <p>
+                Fun observation: because all 4 of 2-byte UTF-8's <u>mandatory content bits</u> lie in the first-and-final <u>start byte</u>, we can explicitly rule out
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">0000</span><span class="utf-8000-bits-content-optional">0</span></code>
+                (0xC0) and
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">0000</span><span class="utf-8000-bits-content-optional">1</span></code>
+                (0xC1) as permanently invalid bytes. They will never ever appear anywhere in a valid UTF-8000
+                <u>code unit</u>!
+              </p>
             </td>
           </tr>
         </tbody>
       </table>
-      <h3>Anatomy</h3>
-      <h3>Implications</h3>
     </details>
-    <details open="true">
-      <summary>Derivation</summary>
-      <p>Couple of ways</p>
+    <details id="sec-properties" open="true">
+      <summary>Properties</summary>
+      <p>Most of these properties of UTF-8000 are explained in detail in an appropriate section of the <a href="#sec-glossary">glossary</a>. This is a quick summary.</p>
+      <h3>Bit counts</h3>
+      <p>The number of content bits and mandatory content bits are very predictable as a function of <code>n</code>, the length of a code unit.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>code unit length</th>
+            <th>number of content bits</th>
+            <th>number of mandatory content bits</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>n = 1</code></td>
+            <td><code>7</code></td>
+            <td><code>0</code></td>
+          </tr>
+          <tr>
+            <td><code>n = 2</code></td>
+            <td><code>5n+1 ( = 11)</code></td>
+            <td><code>4</code></td>
+          </tr>
+          <tr>
+            <td><code>n &gt; 2</code></td>
+            <td><code>5n+1</code></td>
+            <td><code>5</code></td>
+          </tr>
+        </tbody>
+      </table>
+      <h3>Why the Special Cases?</h3>
+      <p>As stated in the <a href="#sec-tldr">tldr</a>, there are only two special cases, both of which are inherited from UTF-8:</p>
+      <p><b>1-byte UTF-8 (ASCII)</b> which has two points of interest:</p>
+      <ul>
+        <li>
+          <p>It has 7 content bits which does not fit the pattern of <code>5n+1</code>. See the glossary section for <a href="#def-content-bits">content bits</a> for an explanation, and see the rejected alternative <a href="#sec-rejected-ascvi">ASCVI</a> code for a version of UTF-8 if ASCII were 6 bit instead of 7 bit which eliminates this special case.</p>
+        </li>
+        <li>
+          <p>ASCII has 0 mandatory content bits because it cannot possibly be overlong since it is the smallest possible code unit. This is fine.</p>
+        </li>
+      </ul>
+      <p><b>2-byte UTF-8</b> which has one point of interest:</p>
+      <ul>
+        <li>
+          <p>It has 4 mandatory content bits, as opposed to 5 for all longer code units. See the glossary section for <a href="#def-mandatory-content-bits">mandatory content bits</a> for an explanation.</p>
+        </li>
+      </ul>
+      <p>The remarkable fact that UTF-8000 does not introduce any new special cases in extending UTF-8 is confirmation to me that this is the canonical, correct way to extend UTF-8. In other words UTF-8 in its current restricted 4 byte form <em>is</em> UTF-8000, but only a small part of it.</p>
+      <p>The fact that we are even able to extend in the first place is also testament to the clever planning and care that Ken Thompson and Rob Pike put into the architecture of UTF-8, which we ensure to maintain as we extend to UTF-8000. Unary code codewords for the start bits sequences, which form a self-similar tree, were a great choice being simple and extensible.</p>
+      <p>This is why I think of UTF-8 as the capstone of the Unix Philosophy.</p>
+      <h3>Self-Synchronization</h3>
+      <p>Inherited from UTF-8 and maintained in UTF-8000.</p>
+      <p>See the glossary section for <a href="#def-self-synchronization-prefix">self synchronization prefix</a> for an explanation of self-synchronization.</p>
+      <h3>Self-Punctuation</h3>
+      <p>Inherited from UTF-8 and maintained in UTF-8000.</p>
+      <p>See the glossary section for <a href="#def-start-bits">start bits</a> for an explanation of self-punctuation.</p>
     </details>
-    <details open="true">
+    <details id="sec-intuitive-derivation" open="true">
+      <summary>Intuitive Derivation</summary>
+      <p>There are a few ways that one could arrive at the design for UTF-8000 and the bit counts above.</p>
+      <p>One may think to start with UTF-8, notice that the start byte of an <code>n</code> byte code unit is prefixed with the unary codeword of length <code>n+1</code>, that is <code>n</code> <code>1</code> bits followed by a <code>0</code>, and then figure out how to roll those bits over into the continuation bytes without losing any important properties. This is what I <em>originally</em> did.</p>
+      <p>Writing this document over a week made me introspect the code unit anatomy further, whence I figured out that separating the leading bits into a self-synchronization part and self-punctuation part further illuminates and simplifies the thought process. We shall thus proceed with this perspective.</p>
+      <h4>Blank Slate</h4>
+      <p>We set out to derive the design of an <code>n</code> byte code unit, starting out with <code>n</code> blank bytes, all of whose bits could possibly be content bits.</p>
+      <p>
+        <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00000000</span></code>
+        <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00000000</span></code>
+        <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00000000</span></code>
+        <code>...</code>
+        <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00000000</span></code>
+      </p>
+      <p>
+        To achieve self-synchronization we need to distinguish the first byte of the code unit from the continuation bytes that follow. We could do that by setting the highest bit of first bytes to a
+        <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code> and to <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-continuation">1</span></code> for continuation bytes. Doing it this way round maintains compatibility with ASCII's highest bit being <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code
+        >.
+      </p>
+      <p>
+        <code class="utf-8000-byte"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-unknown">0000000</span></code>
+        <code class="utf-8000-byte"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-unknown">0000000</span></code>
+        <code class="utf-8000-byte"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-unknown">0000000</span></code>
+        <code>...</code>
+        <code class="utf-8000-byte"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-unknown">0000000</span></code>
+      </p>
+      <p>With the design so far, all code units begin with an ASCII byte. When decoding a code unit, we have no idea whether this first byte actually is ASCII, or it is the first byte of a multi-byte code unit. We want self-punctuation, where a code unit intrinsically tells us how long it is.</p>
+      <p>To achieve self-punctuation we create a prefix-free code binary tree, whose leaf node codewords correspond to code unit lengths. These are the start bits sequences. The codeword for <code>n</code> shall be embedded inside the code unit towards the start. It must therefore be short enough to fit into the <code>n</code> bytes, and reasonably computationally predictable. We try:</p>
+      <pre><code>
+.----<code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code>                          One byte UTF-8 (ASCII)
+`----<code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code>---<code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code>                    Two byte UTF-8
+      `----<code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code>---<code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code>            Three byte UTF-8
+            `----<code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code>---<code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code>       Four byte UTF-8
+                  `----<code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code>---<code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code> Five byte UTF-8000
+                        `----...    n byte UTF-8000
+      </code></pre>
+      <p>This seems reasonably simple so far. We stripe the start bits into the available bits not taken by the self-synchronization prefix. All other bits shall be content bits.</p>
+      <table>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">xxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-mandatory">x</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">xxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-mandatory">xx</span><span class="utf-8000-bits-content-optional">xxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-optional">xxxxxxx</span></code>
+            </td>
+          </tr>
+          <tr>
+            <td>...</td>
+          </tr>
+          <tr>
+            <td>17</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-start">1111111</span><span class="utf-8000-bits-content-optional"></span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-start">1111111</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">xxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-mandatory">xx</span><span class="utf-8000-bits-content-optional">xxxxx</span></code>
+            </td>
+            <td>...</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-optional">xxxxxxx</span></code>
+            </td>
+          </tr>
+          <tr>
+            <td>...</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        But wait we've broken the distinction of ASCII! We cannot tell the difference between eg
+        <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">xxxx</span></code>
+        and
+        <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">110xxxx</span></code
+        >, or
+        <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-start">1111111</span><span class="utf-8000-bits-content-optional"></span></code>
+        and
+        <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">1111111</span><span class="utf-8000-bits-content-optional"></span></code>. This code would only work if ASCII were six bit instead of seven bit. Out of curiosity we investigate this code in the rejected alternatives section for <a href="#sec-rejected-ascvi">ASCVI</a>.
+      </p>
+      <p>
+        To maintain compatibility with ASCII we must treat it as a special case, whereby the self-synchronization prefix <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code> is alone sufficient to characterize ASCII. This highlights that the architecting of UTF-8 was not purely a mathematics problem, but was also an engineering problem, working around what already exists.
+      </p>
+      <p>
+        Seeing the ASCII-characterizing prefix <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code> and the erstwhile continuation prefix <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">1</span></code> as forming a prefix-free tree, albeit only of size two, we must repurpose the the latter codeword as the beginning of the self-synchronization prefixes for first bytes and continuation bytes of multi-byte code units. We choose our new self-synchronization prefixes as <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">11</span></code> for start bytes and <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-continuation">10</span></code> for continuation bytes. This produces the following tree:
+      </p>
+      <pre><code>
+.----<code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code>              First byte for ASCII
+`----<code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">1</span></code>---<code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-continuation">0</span></code> Continuation byte for multi-byte UTF-8000
+      `----<code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">1</span></code>        First byte for multi-byte UTF-8000
+      </code></pre>
+      <p>Accordingly adjusting the self-punctuation codewords to apply only to multi-byte code units produces the following tree:</p>
+      <pre><code>
+.----<code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code>                    Two byte UTF-8
+`----<code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code>---<code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code>            Three byte UTF-8
+      `----<code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code>---<code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code>       Four byte UTF-8
+            `----<code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code>---<code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code> Five byte UTF-8000
+                  `----...    n byte UTF-8000
+      </code></pre>
+      <p>Putting these mechanisms together yields UTF-8000 and we're done!</p>
+      <table>
+        <tbody>
+          <tr>
+            <td>ASCII</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">xxxxxxx</span></code>
+            </td>
+          </tr>
+          <tr>
+            <td>UTF-8</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">xxxx</span><span class="utf-8000-bits-content-optional">x</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">xxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">x</span><span class="utf-8000-bits-content-optional">xxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">xxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xx</span><span class="utf-8000-bits-content-optional">xxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+          </tr>
+          <tr>
+            <td>UTF-8000</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">1110</span><span class="utf-8000-bits-content-mandatory">xx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxx</span><span class="utf-8000-bits-content-optional">xxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">11110</span><span class="utf-8000-bits-content-mandatory">x</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxx</span><span class="utf-8000-bits-content-optional">xx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111110</span><span class="utf-8000-bits-content-optional"></span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxxx</span><span class="utf-8000-bits-content-optional">x</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111111</span><span class="utf-8000-bits-content-optional"></span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">xxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111111</span><span class="utf-8000-bits-content-optional"></span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">xxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">x</span><span class="utf-8000-bits-content-optional">xxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111111</span><span class="utf-8000-bits-content-optional"></span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">xxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xx</span><span class="utf-8000-bits-content-optional">xxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+          </tr>
+          <tr>
+            <td>...</td>
+          </tr>
+          <tr>
+            <td>22</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111111</span><span class="utf-8000-bits-content-optional"></span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-start">111111</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-start">111111</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">xxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xx</span><span class="utf-8000-bits-content-optional">xxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+            <td>...</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+            </td>
+          </tr>
+          <tr>
+            <td>...</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>It is a <a>trivial*</a> result of coding theory that the product of two prefix-free codes is also a prefix-free code. The product of our trees looks like:</p>
+      <pre><code>
+.----<code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code>                                                  ASCII byte
+`----<code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">1</span></code>---<code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-continuation">0</span></code>                               UTF-8 continuation byte
+      `----<code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">1</span></code>---<code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code>                    Two byte UTF-8    start byte
+            `----<code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code>---<code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code>            Three byte UTF-8    start byte
+                  `----<code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code>---<code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code>       Four byte UTF-8    start byte
+                        `----<code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code>---<code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code> Five byte UTF-8000 start byte
+                              `----...    n byte UTF-8000 start byte
+      </code></pre>
+      <p>Without the color highlighting this is how most people think about UTF-8: a start byte whose prefix of <code>n</code> <code>1</code> bits and a terminating <code>0</code> bit provides both self-synchronization and self-punctuation. This makes sense for a small number of bytes, but the trick to unlock a perspective of infinite extensibility is to split this tree into the self-synchronization part and self-punctuation part; ie we un-product those prefix-free codes. Failing to do this leads to the rejected alternative <a href="#sec-rejected-utf-inf">UTF-Inf</a>.</p>
+      <p>
+        <!-- Let's get back on track. The highest
+        <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">0</span></code> bit of ASCII has to serve as
+        both the self-synchronization prefix, and the start bits. From the perspective of our work so far, and further,
+        we treat it as a special case. -->
+        XXX it's about layers, self-sync layer, self-punct layer. like russian dolls. concating both together, since they're prefix-free codes is also a prefix-free code; Q2 of Example Sheet 1 of Codes and Crypt. Makes sense for small number of bytes, &lt; 8. Viewing only this concated tree is what one will be most familiar with, and since it's a nice property that n bytes is n 1s then 0 one may not question it, but this separation into layers is great. Also very Unix Philosophy-esque, like Networking layers.
+      </p>
+      <p>include cont pref blur ascii start with self sync pref</p>
+      <p>this merging of cont pref into tree which made it non-obvious to sprawl start bits into cont bytes, as it looked like cont prefix was start bit</p>
+    </details>
+    <details id="sec-encoding" open="true">
       <summary>Encoding</summary>
       <p>Couple of ways</p>
     </details>
-    <details open="true">
+    <details id="sec-decoding" open="true">
       <summary>Decoding</summary>
       <p>Couple of ways</p>
+      <h3>Error recovery</h3>
     </details>
-    <details>
+    <details id="sec-signed-variant" open="true">
       <summary>Signed Variant</summary>
       <p>Mandatory Content Bits would mean at least one zero bit lest overlong.</p>
     </details>
-    <details>
-      <summary>Rejected Alternatives</summary>
-      <p>Comparison</p>
+    <details id="sec-utf-32" open="true">
+      <summary>Inspiration for UTF-32 etc</summary>
     </details>
-    <details open="true">
+    <details id="sec-rejected-ascvi" open="true">
+      <summary>Rejected Alternative ASCVI</summary>
+      <p>VI in ASCVI is 6</p>
+      <p>Investigate if this code would be even more predictable and useful than UTF-8000. Isn't really</p>
+      <p>XXX parallel universe 64 codepoints ASCII.</p>
+      <p>Comparison</p>
+      <table>
+        <thead>
+          <tr>
+            <th>code unit length</th>
+            <th>number of content bits</th>
+            <th>number of mandatory content bits</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>n = 1</code></td>
+            <td><code>6n ( = 6)</code></td>
+            <td><code>0</code></td>
+          </tr>
+          <tr>
+            <td><code>n &gt; 1</code></td>
+            <td><code>6n</code></td>
+            <td><code>6</code></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>This code would have an information rate of 6/8 for any code unit length, more efficient than UTF-8000 which asymptotically has 5/8. However, there are some downsides to this code, which stop any misplaced yearning for a parallel universe in which ASCII were 6-bit: One-byte code units of this code only store 6 bits not 7, making it less powerful than ASCII. This code also uses every possible byte, whereas the merits of UTF-8000 never using 0xC0 and 0xC1 could be further investigated. The number of content bits in a code unit would never be a power of 2.</p>
+    </details>
+    <details id="sec-rejected-utf-inf" open="true">
+      <summary>Rejected Alternative UTF-Inf</summary>
+      <p>UTF-∞</p>
+      <p>Mashpoe in his <a href="https://www.youtube.com/watch?v=tAMDtH9uq1Y">YouTube video</a> lays out an alternative suboptimal extension of UTF-8 that has several flaws and quirks. This section is <em>not</em> meant to be a personal attack on Mashpoe for attempting a problem and ending up with a suboptimal result. I've done that plenty of times myself and it's good to document the failures so we can work towards success. My only major gripe with Mashpoe's video is the joke about patenting, which I talk against in the <a href="#sec-licensing">licensing section</a>.</p>
+    </details>
+    <details id="sec-reference-implementation" open="true">
+      <summary>Reference Implementation and Tools</summary>
+      <p>XXX</p>
+      <img src="/utf-8000-info-example.png" />
+    </details>
+    <details id="sec-naming" open="true">
       <summary>Naming</summary>
+      <p>In the development phase of this project I have been using the codename <q>UTF-8000</q>, but I find myself increasingly drawn to <q>UTF-8K</q>.</p>
+      <p>Below is a comparison of different potential names, and I am open to suggestions.</p>
       <h3>UTF-8000</h3>
       <p>
         Inspired by Python 3's development codenames in
-        <a href="https://peps.python.org/pep-3000/#naming" target="_blank" rel="noopener noreferrer">PEP 3000</a>.
+        <a href="https://peps.python.org/pep-3000/#naming">PEP 3000</a>.
       </p>
       <h4>Pros</h4>
-      <p>
-        The <q>thousand</q> in <q>UTF eight thousand</q> sounds big and futuristic. This encoding scheme should also
-        last for a thousand years plus!
-      </p>
+      <p>The <q>thousand</q> in <q>UTF eight thousand</q> sounds big and futuristic. This encoding scheme should also last forever!</p>
       <h4>Cons</h4>
       <p>The zeros are repetitive.</p>
-      <p>
-        Having to remember exactly three zeros to make <q>8000</q>. Some people may read it as eight hundred, or eighty
-        thousand etc.
-      </p>
-      <p>
-        The inspiration logic doesn't exactly match up with Python because Python was moving from Python 2 to Python 3,
-        not Python 3 to Python 3000, whereas we're going from UTF-8 to UTF-8000.
-      </p>
+      <p>Having to remember exactly three zeros to make <q>8000</q>. Some people may read it as eight hundred, or eighty thousand etc.</p>
+      <p>The inspiration logic doesn't exactly match up with Python because Python was moving from Python 2 to Python 3, not Python 3 to Python 3000, whereas we're going from UTF-8 to UTF-8000.</p>
+      <p id="prefix-con"><q>UTF-8</q> is a prefix of <q>UTF-8000</q>. Existing software which parses a string representing the encoding's name to determine the encoding may do something like <code>if encoding_name[:5] == "UTF-8"</code> and incorrectly short-circuit. It is for this reason that Microsoft skipped from Windows 8 to Windows 10, not creating Windows 9, because existing software may check for <q>Windows 9</q> to test for <q>Windows 95</q> or <q>Windows 98</q>.</p>
       <h3>UTF-8K</h3>
+      <p>Inspired by another of Python 3's development codenames <q>Py3K</q> / <q>Py3k</q>, we could use UTF-8K, the <q>K</q> capitalized like the <q>UTF</q>. It's also shorter than <q>8000</q>.</p>
+      <h4>Pros</h4>
+      <p>Short; just one more letter than <q>UTF-8</q>.</p>
+      <h4>Cons</h4>
+      <p><q>UTF-8</q> is a prefix of <q>UTF-8K</q>. See <a href="#prefix-con">here</a>.</p>
+      <h3>UTF-8 &amp; Knuckles</h3>
+      <p>The <q>K</q> in <q>UTF-8K</q> reminds me of <q>Sonic 3 &amp; Knuckles</q>, sometimes abbreviated to <q>S3K</q>.</p>
       <p>
-        Inspired by another of Python 3's development codenames <q>Py3K</q> / <q>Py3k</q>, we could use UTF-8K, the
-        <q>K</q> capitalized like the <q>UTF</q>. It's also shorter than <q>8000</q>.
-      </p>
-      <h3>UTF-8 and Knuckles</h3>
-      <p>
-        The <q>K</q> in <q>UTF-8K</q> reminds me of Sonic 3 &amp; Knuckles, sometimes abbreviated to <q>S3K</q>. Sonic 3
-        &amp; Knuckles is a XXX of Sonic 3 and Sonic &amp; Knuckles using lock-on technology. In a similar way UTF-8
-        extends from ASCII, and UTF-8000 continues this extension.
+        The <q>Sonic &amp; Knuckles</q> cartridge uses <q><a href="https://sonic.fandom.com/wiki/Lock-on_technology">lock-on technology</a></q> to extend <q>Sonic 3</q> and <q>Sonic &amp; Knuckles</q> into <q>Sonic 3 &amp; Knuckles</q>. In a similar way UTF-8 extends from (locks on to) ASCII, and UTF-8000 continues this extension.
       </p>
       <h4>Pros</h4>
       <p>Knuckles is cool.</p>
       <h4>Cons</h4>
       <p>SEGA might not be happy, though they do seem nicer than Nintendo with respect to fanart.</p>
-      <p>
-        The hardest work of extending from ASCII has already been achieved by UTF-8. Is UTF-8<em>000</em> lock-on? Not
-        really.
-      </p>
+      <p>The hardest work of extending from ASCII to UTF-8 has already been achieved by Ken Thompson and Rob Pike. Is UTF-8000 lock-on if it doesn't introduce any new special cases? Not really.</p>
+      <p><q>UTF-8</q> is a prefix of <q>UTF-8 &amp; Knuckles</q>. See <a href="#prefix-con">here</a>.</p>
+      <p>This is just a bit of a joke-y name.</p>
     </details>
-    <details open="true">
+    <details id="sec-logo" open="true">
       <summary>Logo</summary>
-      <p>UTF-8 does not have a logo. Therefore I had a bit of fun designing a logo for UTF-8000.</p>
+      <p>UTF-8 does not have a logo. I had a bit of fun designing a logo for UTF-8000. I made it Romanesque but simple.</p>
+      <p>It's an eagle with <q>UTF</q> written across its wings and chest. The roman numerals for <q>8</q>, VIII, flank its head.</p>
       <p>
-        It's an eagle with <q>UTF</q> written across its wings and chest. The roman numerals for <q>8</q>, VIII, flank
-        its head. Below its claws it holds a fasces, wrapped with a UTF-8000 continuation byte of the form
-        <code>10XXXXXX</code>. This represents the unified strength of a bundle of UTF-8000 continuation bytes, which
-        makes us unstoppable in conquering the entire integers, in the name of annexing them into Unicode codepoints,
-        encoded as UTF-8000 bytes. The central fascis which sticks out perhaps represents the first start byte of a
-        UTF-8000 sequence. This byte looks different from its continuation bytes, and has the power to start a sequence,
-        which is represented by the wielding of the axe.
+        Below its claws it holds a fasces, wrapped with a UTF-8000 continuation byte of the form
+        <code>10XXXXXX</code>. This represents the united strength of a bundle of UTF-8000 continuation bytes, which makes us unstoppable in conquering the entire integers, in the name of annexing them into Unicode codepoints, encoded as UTF-8000 bytes.
       </p>
-      <img src="/utf-8000-logo.png" style="max-width: 100%; width: 256px" />
+      <p>The central fascis which sticks out perhaps represents the first start byte of a UTF-8000 sequence. This byte looks different from its continuation bytes, and has the power to start a sequence, which is represented by the wielding of the axe, sticking out on the left. On the right end the central fascis sticks out perhaps representing the terminating 0 of the start bit sequence.</p>
+      <img src="/logo.blanchedalmond.png" style="width: 256px" />
       <p>The favicon for this website is just the roman numerals VIII.</p>
-      <img src="/favicon.ico" style="max-width: 100%" />
+      <img src="/favicon.ico" />
       <p>
         The Git repo containing these images is available on GitHub as
-        <a href="https://github.com/UTF-8000/UTF-8000-Logo">UTF-8000/UTF-8000-Logo</a>.
+        <a href="https://github.com/UTF-8000/UTF-8000-Images">UTF-8000/UTF-8000-Images</a>.
       </p>
     </details>
-    <details open="true">
+    <details id="sec-licensing" open="true">
       <summary>Licensing / Copyright (Copyleft)</summary>
-      <p>
-        As creator of UTF-8000 I want the liberty with which UTF-8000 can be used to be no less permissible than UTF-8
-        and ASCII before it. This belongs to everyone. Live Free or Die.
-      </p>
+      <p>As creator of UTF-8000 I want the liberty with which UTF-8000 (the algorithm) can be used to be no less permissible than UTF-8 and ASCII before it. This belongs to everyone. Live Free or Die.</p>
       <p>
         This website is licensed under
-        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer"
-          >CC-BY-NC-SA-4.0</a
-        >, available on GitHub as <a href="https://github.com/UTF-8000/UTF-8000-Website">UTF-8000/UTF-8000-Website</a>.
+        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC-BY-NC-SA-4.0</a>, available on GitHub as <a href="https://github.com/UTF-8000/UTF-8000-Website">UTF-8000/UTF-8000-Website</a>.
       </p>
       <p>
         The logo / images are licensed under
-        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer"
-          >CC-BY-NC-SA-4.0</a
-        >, available on GitHub as <a href="https://github.com/UTF-8000/UTF-8000-Logo">UTF-8000/UTF-8000-Logo</a>.
+        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC-BY-NC-SA-4.0</a>, available on GitHub as <a href="https://github.com/UTF-8000/UTF-8000-Images">UTF-8000/UTF-8000-Images</a>.
       </p>
       <p>
         The Python reference implementation is licensed under
-        <a href="https://www.gnu.org/licenses/gpl-3.0.txt" target="_blank" rel="noopener noreferrer">GPL-3.0-only</a>,
-        available on GitHub as <a href="https://github.com/UTF-8000/UTF-8000-Python">UTF-8000/UTF-8000-Python</a>. Any
-        implementation of decoding and encoding UTF-8000 is going to look somewhat similar to this codebase of course;
-        don't worry if you want to use MIT or BSD or something.
+        <a href="https://www.gnu.org/licenses/gpl-3.0.txt">GPL-3.0-only</a>, available on GitHub as <a href="https://github.com/UTF-8000/UTF-8000-Python">UTF-8000/UTF-8000-Python</a>. Any implementation of decoding and encoding UTF-8000 is going to look somewhat similar to this codebase of course; don't worry if you want to use MIT or BSD or something in a clean-room rewrite.
       </p>
-      <p>
-        Whilst Mashpoe may or may not be joking about copyrighting his silly extension of UTF-8, I nonetheless find it
-        reprehensible that someone <em>could</em> (at least try to) copyright / patent the correct way to extend UTF-8.
-        It's be like trying to copyright the right solution to an equation, or a prime number! Therefore I am being
-        quite loud in copylefting of UTF-8000. Everyone benefits from shared open ideas.
-      </p>
+      <p>Whilst Mashpoe may or may not be joking about patenting his extension of UTF-8, I nonetheless find it reprehensible that someone <em>could</em> (at least try to) copyright / patent the correct way to extend UTF-8. It's be like trying to copyright the right solution to an equation, or a prime number! Therefore I am being quite loud in copylefting of UTF-8000. Everyone benefits from shared open ideas.</p>
       <p>:)</p>
     </details>
+    <details id="sec-thanks" open="true">
+      <summary>Thanks</summary>
+      <p>Bell Labs:</p>
+      <ul>
+        <li>
+          <a href="https://en.wikipedia.org/wiki/Claude_Shannon">Claude Shannon</a>, founding father of the Digital Age, Information Theory, and Artificial Intelligence. His 1948 paper <a href="https://en.wikipedia.org/wiki/A_Mathematical_Theory_of_Communication"><i>A Mathematical Theory of Communication</i></a> is the most important mathematics paper of the mid 20th Century, which forms a good chunk of the University of Cambridge Mathematics Tripos course <i>Coding and Cryptography</i>. I made a Manim <a href="https://www.youtube.com/watch?v=xhae09q8uVk">YouTube video</a> in 2024 covering Entropy from Information Theory and its various appearances in mathematics.
+        </li>
+        <li><a href="https://en.wikipedia.org/wiki/Ken_Thompson">Ken Thompson</a>, creator of UTF-8, also best known for Unix and work on chess computers.</li>
+        <li><a href="https://en.wikipedia.org/wiki/Rob_Pike">Rob Pike</a>, co-creator of UTF-8, also best known for Plan 9.</li>
+      </ul>
+      <p>The University of Cambridge mathematics department:</p>
+      <ul>
+        <li><a href="https://www.maths.cam.ac.uk/person/sm137">Professor Stuart Martin</a>, who lectured <i>Coding and Cryptography</i> 2019-2020.</li>
+        <li><a href="https://www.maths.cam.ac.uk/person/ril10">Dr Ross Lawther</a>, director of studies for mathematics at <a href="https://www.girton.cam.ac.uk/subjects-courses/mathematics">Girton College</a> who supervised me for <i>Coding and Cryptography</i> (and other mathematics topics!) 2017-2020. It is question 2 of <a href="https://www.dpmms.cam.ac.uk/study/II/Coding/2019-2020/CC1-20.pdf">example sheet 1</a> that concerns the product of two prefix-free codes, which I was reminded of by the product of the self-synchronization and self-punctuation mechanisms of UTF-8000.</li>
+        <li><a href="https://www.maths.cam.ac.uk/person/tkc10">Dr Keith Carne</a>, whose timeless lecture notes for <i>Codes and Cryptography</i> I use often. They are mirrored on my website <a href="https://math.jb2170.com/videos/entropy/Codes-And-Cryptography-TKCarne.pdf">here</a>. Start at chapter 3 if you're interested!</li>
+      </ul>
+    </details>
+    <details id="sec-contact" open="true">
+      <summary>Contact / Epilogue</summary>
+      <p>
+        <q>To think of these stars that you see overhead at night, these vast worlds which we can never reach. I would annex the planets if I could.</q>
+        - <a href="https://en.wikipedia.org/wiki/Cecil_Rhodes">Cecil John Rhodes</a>, founder of Rhodesia.
+      </p>
+      <p>It is fitting that ASCII (🇺🇸) and UTF-8 (🇺🇸) are completed by UTF-8000 (🇬🇧), the annexing of the entire integers, another Anglosphere project that improves the world.</p>
+      <p>Do say hi on <a href="https://github.com/UTF-8000">GitHub</a> if you have any questions or improvements.</p>
+      <p>Last updated <time datetime="2026-05-27">2026-05-27</time>.</p>
+    </details>
+    <img src="/footer.blanchedalmond.png" style="width: 256px;" />
   </body>
 </html>
