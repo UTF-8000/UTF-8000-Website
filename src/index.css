@@ -8,7 +8,7 @@ h3 {
   text-decoration: underline double;
 }
 
-th {
+thead th {
   padding-inline-end: 1em;
   text-align: start;
 }
@@ -76,4 +76,59 @@ details summary {
 
 .utf-8000-bits-unknown {
   color: white;
+}
+
+.byte-table {
+  font-family: monospace;
+  font-size: large;
+  border-spacing: 0.5ch;
+  text-align: center;
+}
+
+.byte-table th {
+  width: 2ch;
+}
+
+.byte-table td {
+  width: 2ch;
+}
+
+.table-byte-1 {
+  background-color: gold;
+}
+
+.table-byte-2 {
+  background-color: yellowgreen;
+}
+
+.table-byte-3 {
+  background-color: olivedrab;
+}
+
+.table-byte-4 {
+  background-color: lightseagreen;
+}
+
+.table-byte-5 {
+  background-color: deepskyblue;
+}
+
+.table-byte-6 {
+  background-color: royalblue;
+}
+
+.table-byte-7 {
+  background-color: mediumpurple;
+}
+
+.table-byte-8 {
+  background-color: violet;
+}
+
+.table-byte-continuation {
+  background-color: sandybrown;
+}
+
+.table-byte-never {
+  background-color: tomato;
 }

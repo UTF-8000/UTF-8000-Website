@@ -566,9 +566,336 @@
       <p>Inherited from UTF-8 and maintained in UTF-8000.</p>
       <p>See the glossary section for <a href="#def-start-bits">start bits</a> for an explanation of self-punctuation.</p>
 
-      <h3>Never 0xC0 or 0xC1</h3>
-      <p>Inherited from UTF-8 and still holds in UTF-8000.</p>
-      <p>All bytes except 0xC0 and 0xC1 can appear in a valid UTF-8000 stream. See the glossary section for <a href="#def-overlong-encoding">overlong encoding</a> for an explanation of why those two bytes never appear. Also see Wikipedia's <a href="https://en.wikipedia.org/wiki/UTF-8#Byte_map">UTF-8 Byte Map</a> for a visual grid of bytes and where they can appear in a valid UTF-8 stream. UTF-8000 just extends this a little by using the higher value bytes.</p>
+      <h3 id="sec-properties-byte-map">Byte map</h3>
+      <p>Extended from UTF-8, making use of the higher value bytes. Based off Wikipedia's <a href="https://en.wikipedia.org/wiki/UTF-8#Byte_map">UTF-8 Byte Map</a>.</p>
+      <table class="byte-table">
+        <tbody>
+          <tr>
+            <th></th>
+            <th>0</th>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+            <th>5</th>
+            <th>6</th>
+            <th>7</th>
+            <th>8</th>
+            <th>9</th>
+            <th>A</th>
+            <th>B</th>
+            <th>C</th>
+            <th>D</th>
+            <th>E</th>
+            <th>F</th>
+          </tr>
+          <tr>
+            <th>0</th>
+            <td title="0x00" class="table-byte-1">␀</td>
+            <td title="0x01" class="table-byte-1">␁</td>
+            <td title="0x02" class="table-byte-1">␂</td>
+            <td title="0x03" class="table-byte-1">␃</td>
+            <td title="0x04" class="table-byte-1">␄</td>
+            <td title="0x05" class="table-byte-1">␅</td>
+            <td title="0x06" class="table-byte-1">␆</td>
+            <td title="0x07" class="table-byte-1">␇</td>
+            <td title="0x08" class="table-byte-1">␈</td>
+            <td title="0x09" class="table-byte-1">␉</td>
+            <td title="0x0A" class="table-byte-1">␊</td>
+            <td title="0x0B" class="table-byte-1">␋</td>
+            <td title="0x0C" class="table-byte-1">␌</td>
+            <td title="0x0D" class="table-byte-1">␍</td>
+            <td title="0x0E" class="table-byte-1">␎</td>
+            <td title="0x0F" class="table-byte-1">␏</td>
+          </tr>
+          <tr>
+            <th>1</th>
+            <td title="0x10" class="table-byte-1">␐</td>
+            <td title="0x11" class="table-byte-1">␑</td>
+            <td title="0x12" class="table-byte-1">␒</td>
+            <td title="0x13" class="table-byte-1">␓</td>
+            <td title="0x14" class="table-byte-1">␔</td>
+            <td title="0x15" class="table-byte-1">␕</td>
+            <td title="0x16" class="table-byte-1">␖</td>
+            <td title="0x17" class="table-byte-1">␗</td>
+            <td title="0x18" class="table-byte-1">␘</td>
+            <td title="0x19" class="table-byte-1">␙</td>
+            <td title="0x1A" class="table-byte-1">␚</td>
+            <td title="0x1B" class="table-byte-1">␛</td>
+            <td title="0x1C" class="table-byte-1">␜</td>
+            <td title="0x1D" class="table-byte-1">␝</td>
+            <td title="0x1E" class="table-byte-1">␞</td>
+            <td title="0x1F" class="table-byte-1">␟</td>
+          </tr>
+          <tr>
+            <th>2</th>
+            <td title="0x20" class="table-byte-1">␠</td>
+            <td title="0x21" class="table-byte-1">!</td>
+            <td title="0x22" class="table-byte-1">"</td>
+            <td title="0x23" class="table-byte-1">#</td>
+            <td title="0x24" class="table-byte-1">$</td>
+            <td title="0x25" class="table-byte-1">%</td>
+            <td title="0x26" class="table-byte-1">&amp;</td>
+            <td title="0x27" class="table-byte-1">'</td>
+            <td title="0x28" class="table-byte-1">(</td>
+            <td title="0x29" class="table-byte-1">)</td>
+            <td title="0x2A" class="table-byte-1">*</td>
+            <td title="0x2B" class="table-byte-1">+</td>
+            <td title="0x2C" class="table-byte-1">,</td>
+            <td title="0x2D" class="table-byte-1">-</td>
+            <td title="0x2E" class="table-byte-1">.</td>
+            <td title="0x2F" class="table-byte-1">/</td>
+          </tr>
+          <tr>
+            <th>3</th>
+            <td title="0x30" class="table-byte-1">0</td>
+            <td title="0x31" class="table-byte-1">1</td>
+            <td title="0x32" class="table-byte-1">2</td>
+            <td title="0x33" class="table-byte-1">3</td>
+            <td title="0x34" class="table-byte-1">4</td>
+            <td title="0x35" class="table-byte-1">5</td>
+            <td title="0x36" class="table-byte-1">6</td>
+            <td title="0x37" class="table-byte-1">7</td>
+            <td title="0x38" class="table-byte-1">8</td>
+            <td title="0x39" class="table-byte-1">9</td>
+            <td title="0x3A" class="table-byte-1">:</td>
+            <td title="0x3B" class="table-byte-1">;</td>
+            <td title="0x3C" class="table-byte-1">&lt;</td>
+            <td title="0x3D" class="table-byte-1">=</td>
+            <td title="0x3E" class="table-byte-1">&gt;</td>
+            <td title="0x3F" class="table-byte-1">?</td>
+          </tr>
+          <tr>
+            <th>4</th>
+            <td title="0x40" class="table-byte-1">@</td>
+            <td title="0x41" class="table-byte-1">A</td>
+            <td title="0x42" class="table-byte-1">B</td>
+            <td title="0x43" class="table-byte-1">C</td>
+            <td title="0x44" class="table-byte-1">D</td>
+            <td title="0x45" class="table-byte-1">E</td>
+            <td title="0x46" class="table-byte-1">F</td>
+            <td title="0x47" class="table-byte-1">G</td>
+            <td title="0x48" class="table-byte-1">H</td>
+            <td title="0x49" class="table-byte-1">I</td>
+            <td title="0x4A" class="table-byte-1">J</td>
+            <td title="0x4B" class="table-byte-1">K</td>
+            <td title="0x4C" class="table-byte-1">L</td>
+            <td title="0x4D" class="table-byte-1">M</td>
+            <td title="0x4E" class="table-byte-1">N</td>
+            <td title="0x4F" class="table-byte-1">O</td>
+          </tr>
+          <tr>
+            <th>5</th>
+            <td title="0x50" class="table-byte-1">P</td>
+            <td title="0x51" class="table-byte-1">Q</td>
+            <td title="0x52" class="table-byte-1">R</td>
+            <td title="0x53" class="table-byte-1">S</td>
+            <td title="0x54" class="table-byte-1">T</td>
+            <td title="0x55" class="table-byte-1">U</td>
+            <td title="0x56" class="table-byte-1">V</td>
+            <td title="0x57" class="table-byte-1">W</td>
+            <td title="0x58" class="table-byte-1">X</td>
+            <td title="0x59" class="table-byte-1">Y</td>
+            <td title="0x5A" class="table-byte-1">Z</td>
+            <td title="0x5B" class="table-byte-1">[</td>
+            <td title="0x5C" class="table-byte-1">\</td>
+            <td title="0x5D" class="table-byte-1">]</td>
+            <td title="0x5E" class="table-byte-1">^</td>
+            <td title="0x5F" class="table-byte-1">_</td>
+          </tr>
+          <tr>
+            <th>6</th>
+            <td title="0x60" class="table-byte-1">`</td>
+            <td title="0x61" class="table-byte-1">a</td>
+            <td title="0x62" class="table-byte-1">b</td>
+            <td title="0x63" class="table-byte-1">c</td>
+            <td title="0x64" class="table-byte-1">d</td>
+            <td title="0x65" class="table-byte-1">e</td>
+            <td title="0x66" class="table-byte-1">f</td>
+            <td title="0x67" class="table-byte-1">g</td>
+            <td title="0x68" class="table-byte-1">h</td>
+            <td title="0x69" class="table-byte-1">i</td>
+            <td title="0x6A" class="table-byte-1">j</td>
+            <td title="0x6B" class="table-byte-1">k</td>
+            <td title="0x6C" class="table-byte-1">l</td>
+            <td title="0x6D" class="table-byte-1">m</td>
+            <td title="0x6E" class="table-byte-1">n</td>
+            <td title="0x6F" class="table-byte-1">o</td>
+          </tr>
+          <tr>
+            <th>7</th>
+            <td title="0x70" class="table-byte-1">p</td>
+            <td title="0x71" class="table-byte-1">q</td>
+            <td title="0x72" class="table-byte-1">r</td>
+            <td title="0x73" class="table-byte-1">s</td>
+            <td title="0x74" class="table-byte-1">t</td>
+            <td title="0x75" class="table-byte-1">u</td>
+            <td title="0x76" class="table-byte-1">v</td>
+            <td title="0x77" class="table-byte-1">w</td>
+            <td title="0x78" class="table-byte-1">x</td>
+            <td title="0x79" class="table-byte-1">y</td>
+            <td title="0x7A" class="table-byte-1">z</td>
+            <td title="0x7B" class="table-byte-1">{</td>
+            <td title="0x7C" class="table-byte-1">|</td>
+            <td title="0x7D" class="table-byte-1">}</td>
+            <td title="0x7E" class="table-byte-1">~</td>
+            <td title="0x7F" class="table-byte-1">␡</td>
+          </tr>
+          <tr>
+            <th>8</th>
+            <td title="0x80" class="table-byte-continuation"></td>
+            <td title="0x81" class="table-byte-continuation"></td>
+            <td title="0x82" class="table-byte-continuation"></td>
+            <td title="0x83" class="table-byte-continuation"></td>
+            <td title="0x84" class="table-byte-continuation"></td>
+            <td title="0x85" class="table-byte-continuation"></td>
+            <td title="0x86" class="table-byte-continuation"></td>
+            <td title="0x87" class="table-byte-continuation"></td>
+            <td title="0x88" class="table-byte-continuation"></td>
+            <td title="0x89" class="table-byte-continuation"></td>
+            <td title="0x8A" class="table-byte-continuation"></td>
+            <td title="0x8B" class="table-byte-continuation"></td>
+            <td title="0x8C" class="table-byte-continuation"></td>
+            <td title="0x8D" class="table-byte-continuation"></td>
+            <td title="0x8E" class="table-byte-continuation"></td>
+            <td title="0x8F" class="table-byte-continuation"></td>
+          </tr>
+          <tr>
+            <th>9</th>
+            <td title="0x90" class="table-byte-continuation"></td>
+            <td title="0x91" class="table-byte-continuation"></td>
+            <td title="0x92" class="table-byte-continuation"></td>
+            <td title="0x93" class="table-byte-continuation"></td>
+            <td title="0x94" class="table-byte-continuation"></td>
+            <td title="0x95" class="table-byte-continuation"></td>
+            <td title="0x96" class="table-byte-continuation"></td>
+            <td title="0x97" class="table-byte-continuation"></td>
+            <td title="0x98" class="table-byte-continuation"></td>
+            <td title="0x99" class="table-byte-continuation"></td>
+            <td title="0x9A" class="table-byte-continuation"></td>
+            <td title="0x9B" class="table-byte-continuation"></td>
+            <td title="0x9C" class="table-byte-continuation"></td>
+            <td title="0x9D" class="table-byte-continuation"></td>
+            <td title="0x9E" class="table-byte-continuation"></td>
+            <td title="0x9F" class="table-byte-continuation"></td>
+          </tr>
+          <tr>
+            <th>A</th>
+            <td title="0xA0" class="table-byte-continuation"></td>
+            <td title="0xA1" class="table-byte-continuation"></td>
+            <td title="0xA2" class="table-byte-continuation"></td>
+            <td title="0xA3" class="table-byte-continuation"></td>
+            <td title="0xA4" class="table-byte-continuation"></td>
+            <td title="0xA5" class="table-byte-continuation"></td>
+            <td title="0xA6" class="table-byte-continuation"></td>
+            <td title="0xA7" class="table-byte-continuation"></td>
+            <td title="0xA8" class="table-byte-continuation"></td>
+            <td title="0xA9" class="table-byte-continuation"></td>
+            <td title="0xAA" class="table-byte-continuation"></td>
+            <td title="0xAB" class="table-byte-continuation"></td>
+            <td title="0xAC" class="table-byte-continuation"></td>
+            <td title="0xAD" class="table-byte-continuation"></td>
+            <td title="0xAE" class="table-byte-continuation"></td>
+            <td title="0xAF" class="table-byte-continuation"></td>
+          </tr>
+          <tr>
+            <th>B</th>
+            <td title="0xB0" class="table-byte-continuation"></td>
+            <td title="0xB1" class="table-byte-continuation"></td>
+            <td title="0xB2" class="table-byte-continuation"></td>
+            <td title="0xB3" class="table-byte-continuation"></td>
+            <td title="0xB4" class="table-byte-continuation"></td>
+            <td title="0xB5" class="table-byte-continuation"></td>
+            <td title="0xB6" class="table-byte-continuation"></td>
+            <td title="0xB7" class="table-byte-continuation"></td>
+            <td title="0xB8" class="table-byte-continuation"></td>
+            <td title="0xB9" class="table-byte-continuation"></td>
+            <td title="0xBA" class="table-byte-continuation"></td>
+            <td title="0xBB" class="table-byte-continuation"></td>
+            <td title="0xBC" class="table-byte-continuation"></td>
+            <td title="0xBD" class="table-byte-continuation"></td>
+            <td title="0xBE" class="table-byte-continuation"></td>
+            <td title="0xBF" class="table-byte-continuation"></td>
+          </tr>
+          <tr>
+            <th>C</th>
+            <td title="0xC0" class="table-byte-never"></td>
+            <td title="0xC1" class="table-byte-never"></td>
+            <td title="0xC2" class="table-byte-2">2</td>
+            <td title="0xC3" class="table-byte-2">2</td>
+            <td title="0xC4" class="table-byte-2">2</td>
+            <td title="0xC5" class="table-byte-2">2</td>
+            <td title="0xC6" class="table-byte-2">2</td>
+            <td title="0xC7" class="table-byte-2">2</td>
+            <td title="0xC8" class="table-byte-2">2</td>
+            <td title="0xC9" class="table-byte-2">2</td>
+            <td title="0xCA" class="table-byte-2">2</td>
+            <td title="0xCB" class="table-byte-2">2</td>
+            <td title="0xCC" class="table-byte-2">2</td>
+            <td title="0xCD" class="table-byte-2">2</td>
+            <td title="0xCE" class="table-byte-2">2</td>
+            <td title="0xCF" class="table-byte-2">2</td>
+          </tr>
+          <tr>
+            <th>D</th>
+            <td title="0xD0" class="table-byte-2">2</td>
+            <td title="0xD1" class="table-byte-2">2</td>
+            <td title="0xD2" class="table-byte-2">2</td>
+            <td title="0xD3" class="table-byte-2">2</td>
+            <td title="0xD4" class="table-byte-2">2</td>
+            <td title="0xD5" class="table-byte-2">2</td>
+            <td title="0xD6" class="table-byte-2">2</td>
+            <td title="0xD7" class="table-byte-2">2</td>
+            <td title="0xD8" class="table-byte-2">2</td>
+            <td title="0xD9" class="table-byte-2">2</td>
+            <td title="0xDA" class="table-byte-2">2</td>
+            <td title="0xDB" class="table-byte-2">2</td>
+            <td title="0xDC" class="table-byte-2">2</td>
+            <td title="0xDD" class="table-byte-2">2</td>
+            <td title="0xDE" class="table-byte-2">2</td>
+            <td title="0xDF" class="table-byte-2">2</td>
+          </tr>
+          <tr>
+            <th>E</th>
+            <td title="0xE0" class="table-byte-3">3</td>
+            <td title="0xE1" class="table-byte-3">3</td>
+            <td title="0xE2" class="table-byte-3">3</td>
+            <td title="0xE3" class="table-byte-3">3</td>
+            <td title="0xE4" class="table-byte-3">3</td>
+            <td title="0xE5" class="table-byte-3">3</td>
+            <td title="0xE6" class="table-byte-3">3</td>
+            <td title="0xE7" class="table-byte-3">3</td>
+            <td title="0xE8" class="table-byte-3">3</td>
+            <td title="0xE9" class="table-byte-3">3</td>
+            <td title="0xEA" class="table-byte-3">3</td>
+            <td title="0xEB" class="table-byte-3">3</td>
+            <td title="0xEC" class="table-byte-3">3</td>
+            <td title="0xED" class="table-byte-3">3</td>
+            <td title="0xEE" class="table-byte-3">3</td>
+            <td title="0xEF" class="table-byte-3">3</td>
+          </tr>
+          <tr>
+            <th>F</th>
+            <td title="0xF0" class="table-byte-4">4</td>
+            <td title="0xF1" class="table-byte-4">4</td>
+            <td title="0xF2" class="table-byte-4">4</td>
+            <td title="0xF3" class="table-byte-4">4</td>
+            <td title="0xF4" class="table-byte-4">4</td>
+            <td title="0xF5" class="table-byte-4">4</td>
+            <td title="0xF6" class="table-byte-4">4</td>
+            <td title="0xF7" class="table-byte-4">4</td>
+            <td title="0xF8" class="table-byte-5">5</td>
+            <td title="0xF9" class="table-byte-5">5</td>
+            <td title="0xFA" class="table-byte-5">5</td>
+            <td title="0xFB" class="table-byte-5">5</td>
+            <td title="0xFC" class="table-byte-6">6</td>
+            <td title="0xFD" class="table-byte-6">6</td>
+            <td title="0xFE" class="table-byte-7">7</td>
+            <td title="0xFF" class="table-byte-8">8+</td>
+          </tr>
+        </tbody>
+      </table>
+      <p id="never-c0-c1">All bytes except 0xC0 and 0xC1 can appear in a valid UTF-8000 stream. See the glossary section for <a href="#def-overlong-encoding">overlong encoding</a> for an explanation of why those two bytes never appear.</p>
 
       <h3 id="property-strcmp">strcmp(3) ordering</h3>
       <p>Inherited from UTF-8 and maintained in UTF-8000.</p>
@@ -576,10 +903,18 @@
         The <a href="#def-self-synchronization-prefix">self-synchronization prefixes</a> of first bytes are monotonically-increasing-ly ordered with respect to code unit length. In other words ASCII is of length 1 and multi-byte is of length greater than 1, and <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code> &lt; <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">11</span></code> occupying the highest bits of UTF-8000 bytes.
       </p>
       <p>
-        The <a href="#def-start-bits">start bit</a> sequences are also monotonically-increasing-ly ordered with respect to code unit length. In other words if <code>n &lt; m</code> then <code class="utf-8000-bits"><span class="utf-8000-bits-start">111...[n]...10</span></code> <code>&lt;</code> <code class="utf-8000-bits"><span class="utf-8000-bits-start">111...[m]...10</span></code> as an integer value, occupying the heads of the code unit bytes beyond the self-synchronization prefixes.
+        The <a href="#def-start-bits">start bit</a> sequences are also monotonically-increasing-ly ordered with respect to code unit length. In other words if <code>n &lt; m</code> then <code class="utf-8000-bits"><span class="utf-8000-bits-start">111...[n]...10</span></code> <code>&lt;</code> <code class="utf-8000-bits"><span class="utf-8000-bits-start">111...[m]...10</span></code> as an integer value, occupying the heads of the code unit bytes beyond the self-synchronization prefixes. This would not have been the case had UTF-8 been designed to use the alternative form of unary codewords given by <code class="utf-8000-bits"><span class="utf-8000-bits-start">000...01</span></code
+        >.
       </p>
       <p>The <a href="#def-content-bits">content bits</a> of code units are also monotonically-increasing-ly ordered with respect to codepoint value.</p>
       <p>Combining these three things together means that <code>strcmp(3)</code>, the C stdlib string comparing function, works the same way on UTF-8000 bytes as it does on UTF-8, as it does on ASCII, effectively comparing the encoded codepoint values against each other. Nice!</p>
+
+      <h3>BOM Support</h3>
+      <p>I've never actively used BOMs myself so I've only put 30 seconds of thought into this section so far.</p>
+      <p>As far as I'm aware we don't break <a href="https://en.wikipedia.org/wiki/Byte_order_mark">Byte Order Mark</a> support for UTF-8, though we may wish to have a different BOM to strictly distinguish UTF-8 from UTF-8000. Maybe UTF-8000 could have multiple BOMs, one for each integer N greater than or equal to four, to indicate to a decoder the maximum expected code unit length.</p>
+      <p>
+        One of the reasons why <code>U+FFFE</code> is not a valid Unicode Scalar Value is because <code>0xFE 0xFF</code> is the BOM for UTF-16. Since UTF-16 code units are two bytes wide, one may read either <code>0xFE 0xFF</code> or <code>0xFF 0xFE</code> depending on endianness. To make it clear that <code>0xFF 0xFE</code> implies <q>correct for endianness</q> and cannot be mistaken for a legitimate character, <code>U+FFFE</code> is designated as <code>&lt;noncharacter-FFFE&gt;</code>. We are relieved in that neither <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111111</span></code> <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111110</span></code> nor <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111110</span></code> <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111111</span></code> are valid UTF-8000 sequence extracts, ie UTF-8000 does not introduce incompatibilities with UTF-16.
+      </p>
 
       <h3>Arbitrary Lengths, Sensible Limits</h3>
       <p>I think we've made it clear by now that UTF-8000 code units can be arbitrarily large. In practice however one <em>may</em> wish to set a sensible limit on code unit lengths when decoding. Here we'll discuss a method of finding some nice code unit lengths whose code units store <code>5n+1 = 2^N</code> bits, as we are often interested in powers of 2 in computer science.</p>
@@ -620,11 +955,7 @@
           </tr>
         </tbody>
       </table>
-      <p>Do remember that strictly speaking one shouldn't allow overlong encodings if one were for example thinking of storing a small <code>uint256_t</code> key in a 51 byte unit!</p>
-
-      <h3>BOM Support</h3>
-      <p>As far as I'm aware we don't break <a href="https://en.wikipedia.org/wiki/Byte_order_mark">Byte Order Mark</a> support for UTF-8, though we may wish to have a different BOM to strictly distinguish UTF-8 from UTF-8000. Maybe UTF-8000 could have multiple BOMs, one for each integer N greater than four to indicate to a decoder the maximum expected code unit length.</p>
-      <p>I've never actively used BOMs myself however so I've only put 10 seconds of thought into this section so far.</p>
+      <p>Do remember that strictly speaking one shouldn't allow overlong encodings if one were for example thinking of storing a small <code>uint256_t</code> key in a 51 byte code unit!</p>
     </details>
 
     <details id="sec-intuitive-derivation" no-open="true">
@@ -728,10 +1059,10 @@
         >, or
         <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-start">1111111</span><span class="utf-8000-bits-content-optional"></span></code>
         and
-        <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">1111111</span><span class="utf-8000-bits-content-optional"></span></code>. This code would only work if ASCII were six bit instead of seven bit. Out of curiosity we investigate this code in the rejected alternatives section <q><a href="#sec-rejected-ascvi">ASCVI</a></q
+        <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">1111111</span><span class="utf-8000-bits-content-optional"></span></code>. This code would only work if ASCII were six-bit instead of seven-bit. Out of curiosity we investigate this code in the rejected alternatives section <q><a href="#sec-rejected-ascvi">ASCVI</a></q
         >.
       </p>
-      <p>
+      <p id="sec-intuitive-derivation-engineer">
         To maintain compatibility with ASCII we must treat it as a special case, whereby the self-synchronization prefix <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code> is alone sufficient to characterize ASCII. This highlights that the architecting of UTF-8 was not purely a mathematics problem, but was also an engineering problem, working around what already exists.
       </p>
       <p>
@@ -1049,13 +1380,75 @@
 
     <details id="sec-rejected-alternatives" open="true">
       <summary>Rejected Alternatives</summary>
+      <p>Although UTF-8000 extends <q>naturally</q> from UTF-8, is it still the best approach? Are there any better alternatives that <q>engineer</q> an extension from UTF-8, just as UTF-8 <a href="#sec-intuitive-derivation-engineer:~:text=the architecting of UTF-8 was not purely a mathematics problem, but was also an engineering problem">engineers</a> an extension from ASCII? We rule out a few other suggestions in this section.</p>
 
-      <details id="sec-rejected-ascvi" open="true">
+      <details id="sec-rejected-ascvi" no-open="true">
         <summary>ASCVI</summary>
-        <p>VI in ASCVI is 6</p>
-        <p>Investigate if this code would be even more predictable and useful than UTF-8000. Isn't really</p>
-        <p>XXX parallel universe 64 codepoints ASCII.</p>
-        <p>Comparison</p>
+        <p>What if ASCII were only six-bit instead of seven-bit? Would this make extending to multi-byte code units more pleasant?</p>
+
+        <h3>TLDR / Examples</h3>
+        <table>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">xxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-mandatory">x</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">xxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-mandatory">xx</span><span class="utf-8000-bits-content-optional">xxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-optional">xxxxxxx</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td>...</td>
+            </tr>
+            <tr>
+              <td>17</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-start">1111111</span><span class="utf-8000-bits-content-optional"></span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-start">1111111</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">xxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-mandatory">xx</span><span class="utf-8000-bits-content-optional">xxxxx</span></code>
+              </td>
+              <td>...</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-optional">xxxxxxx</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Properties</h3>
+        <p>Self-synchronization, self-punctuation, <code>strcmp</code> ordering, BOM support, and arbitrary code unit length have the same conclusion as UTF-8000. Properties that differ are discussed below.</p>
+
+        <h4>Bit counts</h4>
+        <p>The number of content bits and mandatory content bits are even more predictable than those of UTF-8.</p>
         <table>
           <thead>
             <tr>
@@ -1077,7 +1470,355 @@
             </tr>
           </tbody>
         </table>
-        <p>This code would have an information rate of 6/8 for any code unit length, more efficient than UTF-8000 which asymptotically has 5/8. However, there are some downsides to this code, which stop any misplaced yearning for a parallel universe in which ASCII were 6-bit: One-byte code units of this code only store 6 bits not 7, making it less powerful than ASCII. This code also uses every possible byte, whereas the merits of UTF-8000 never using 0xC0 and 0xC1 could be further investigated. The number of content bits in a code unit would never be a power of 2.</p>
+        <p>
+          This is because one-byte code units are not special. They use the same <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code> self-synchronization prefix as any first byte. The number 6 arises from every subsequent continuation byte adding on 7 more content bits, minus 1 for the longer start bits sequence.
+        </p>
+        <p>Consequently the number of content bits stored in an <code>n</code> byte code unit is never a power of two, unlike with UTF-8000. This is because 6, containing 3 in its prime factorization, cannot divide into a power of two. This is not a terrible defect, but we do like powers of two.</p>
+
+        <h4>Information Rate</h4>
+        <p>ASCVI's information rate is <code>6n / 8n = 6 / 8 = 75%</code>. This a constant independent of the length of the code unit.</p>
+        <p>For one-byte code units UTF-8000 (ASCII) is more efficient and versatile, storing double the number of codepoints and having an information rate of <code>87.5%</code>.</p>
+        <p>For multi-byte code units ASCVI is more efficient, with UTF-8000's information rate tending downwards towards <code>62.5%</code>.</p>
+        <p>Even if the US English alphabet had its 52 letters cut down to eg 27 Hebrew glyphs, or no letters at all, one would struggle to create a practical set of 64 glyphs for single-byte ASCVI. The tradeoff of ASCII being seven-bit, at the slight detriment of the information rate of multi-byte code units, seems worth it.</p>
+
+        <h4>Byte map</h4>
+        <table class="byte-table">
+          <tbody>
+            <tr>
+              <th></th>
+              <th>0</th>
+              <th>1</th>
+              <th>2</th>
+              <th>3</th>
+              <th>4</th>
+              <th>5</th>
+              <th>6</th>
+              <th>7</th>
+              <th>8</th>
+              <th>9</th>
+              <th>A</th>
+              <th>B</th>
+              <th>C</th>
+              <th>D</th>
+              <th>E</th>
+              <th>F</th>
+            </tr>
+            <tr>
+              <th>0</th>
+              <td title="0x00" class="table-byte-1">1</td>
+              <td title="0x01" class="table-byte-1">1</td>
+              <td title="0x02" class="table-byte-1">1</td>
+              <td title="0x03" class="table-byte-1">1</td>
+              <td title="0x04" class="table-byte-1">1</td>
+              <td title="0x05" class="table-byte-1">1</td>
+              <td title="0x06" class="table-byte-1">1</td>
+              <td title="0x07" class="table-byte-1">1</td>
+              <td title="0x08" class="table-byte-1">1</td>
+              <td title="0x09" class="table-byte-1">1</td>
+              <td title="0x0A" class="table-byte-1">1</td>
+              <td title="0x0B" class="table-byte-1">1</td>
+              <td title="0x0C" class="table-byte-1">1</td>
+              <td title="0x0D" class="table-byte-1">1</td>
+              <td title="0x0E" class="table-byte-1">1</td>
+              <td title="0x0F" class="table-byte-1">1</td>
+            </tr>
+            <tr>
+              <th>1</th>
+              <td title="0x10" class="table-byte-1">1</td>
+              <td title="0x11" class="table-byte-1">1</td>
+              <td title="0x12" class="table-byte-1">1</td>
+              <td title="0x13" class="table-byte-1">1</td>
+              <td title="0x14" class="table-byte-1">1</td>
+              <td title="0x15" class="table-byte-1">1</td>
+              <td title="0x16" class="table-byte-1">1</td>
+              <td title="0x17" class="table-byte-1">1</td>
+              <td title="0x18" class="table-byte-1">1</td>
+              <td title="0x19" class="table-byte-1">1</td>
+              <td title="0x1A" class="table-byte-1">1</td>
+              <td title="0x1B" class="table-byte-1">1</td>
+              <td title="0x1C" class="table-byte-1">1</td>
+              <td title="0x1D" class="table-byte-1">1</td>
+              <td title="0x1E" class="table-byte-1">1</td>
+              <td title="0x1F" class="table-byte-1">1</td>
+            </tr>
+            <tr>
+              <th>2</th>
+              <td title="0x20" class="table-byte-1">1</td>
+              <td title="0x21" class="table-byte-1">1</td>
+              <td title="0x22" class="table-byte-1">1</td>
+              <td title="0x23" class="table-byte-1">1</td>
+              <td title="0x24" class="table-byte-1">1</td>
+              <td title="0x25" class="table-byte-1">1</td>
+              <td title="0x26" class="table-byte-1">1</td>
+              <td title="0x27" class="table-byte-1">1</td>
+              <td title="0x28" class="table-byte-1">1</td>
+              <td title="0x29" class="table-byte-1">1</td>
+              <td title="0x2A" class="table-byte-1">1</td>
+              <td title="0x2B" class="table-byte-1">1</td>
+              <td title="0x2C" class="table-byte-1">1</td>
+              <td title="0x2D" class="table-byte-1">1</td>
+              <td title="0x2E" class="table-byte-1">1</td>
+              <td title="0x2F" class="table-byte-1">1</td>
+            </tr>
+            <tr>
+              <th>3</th>
+              <td title="0x30" class="table-byte-1">1</td>
+              <td title="0x31" class="table-byte-1">1</td>
+              <td title="0x32" class="table-byte-1">1</td>
+              <td title="0x33" class="table-byte-1">1</td>
+              <td title="0x34" class="table-byte-1">1</td>
+              <td title="0x35" class="table-byte-1">1</td>
+              <td title="0x36" class="table-byte-1">1</td>
+              <td title="0x37" class="table-byte-1">1</td>
+              <td title="0x38" class="table-byte-1">1</td>
+              <td title="0x39" class="table-byte-1">1</td>
+              <td title="0x3A" class="table-byte-1">1</td>
+              <td title="0x3B" class="table-byte-1">1</td>
+              <td title="0x3C" class="table-byte-1">1</td>
+              <td title="0x3D" class="table-byte-1">1</td>
+              <td title="0x3E" class="table-byte-1">1</td>
+              <td title="0x3F" class="table-byte-1">1</td>
+            </tr>
+            <tr>
+              <th>4</th>
+              <td title="0x40" class="table-byte-2">2</td>
+              <td title="0x41" class="table-byte-2">2</td>
+              <td title="0x42" class="table-byte-2">2</td>
+              <td title="0x43" class="table-byte-2">2</td>
+              <td title="0x44" class="table-byte-2">2</td>
+              <td title="0x45" class="table-byte-2">2</td>
+              <td title="0x46" class="table-byte-2">2</td>
+              <td title="0x47" class="table-byte-2">2</td>
+              <td title="0x48" class="table-byte-2">2</td>
+              <td title="0x49" class="table-byte-2">2</td>
+              <td title="0x4A" class="table-byte-2">2</td>
+              <td title="0x4B" class="table-byte-2">2</td>
+              <td title="0x4C" class="table-byte-2">2</td>
+              <td title="0x4D" class="table-byte-2">2</td>
+              <td title="0x4E" class="table-byte-2">2</td>
+              <td title="0x4F" class="table-byte-2">2</td>
+            </tr>
+            <tr>
+              <th>5</th>
+              <td title="0x50" class="table-byte-2">2</td>
+              <td title="0x51" class="table-byte-2">2</td>
+              <td title="0x52" class="table-byte-2">2</td>
+              <td title="0x53" class="table-byte-2">2</td>
+              <td title="0x54" class="table-byte-2">2</td>
+              <td title="0x55" class="table-byte-2">2</td>
+              <td title="0x56" class="table-byte-2">2</td>
+              <td title="0x57" class="table-byte-2">2</td>
+              <td title="0x58" class="table-byte-2">2</td>
+              <td title="0x59" class="table-byte-2">2</td>
+              <td title="0x5A" class="table-byte-2">2</td>
+              <td title="0x5B" class="table-byte-2">2</td>
+              <td title="0x5C" class="table-byte-2">2</td>
+              <td title="0x5D" class="table-byte-2">2</td>
+              <td title="0x5E" class="table-byte-2">2</td>
+              <td title="0x5F" class="table-byte-2">2</td>
+            </tr>
+            <tr>
+              <th>6</th>
+              <td title="0x60" class="table-byte-3">3</td>
+              <td title="0x61" class="table-byte-3">3</td>
+              <td title="0x62" class="table-byte-3">3</td>
+              <td title="0x63" class="table-byte-3">3</td>
+              <td title="0x64" class="table-byte-3">3</td>
+              <td title="0x65" class="table-byte-3">3</td>
+              <td title="0x66" class="table-byte-3">3</td>
+              <td title="0x67" class="table-byte-3">3</td>
+              <td title="0x68" class="table-byte-3">3</td>
+              <td title="0x69" class="table-byte-3">3</td>
+              <td title="0x6A" class="table-byte-3">3</td>
+              <td title="0x6B" class="table-byte-3">3</td>
+              <td title="0x6C" class="table-byte-3">3</td>
+              <td title="0x6D" class="table-byte-3">3</td>
+              <td title="0x6E" class="table-byte-3">3</td>
+              <td title="0x6F" class="table-byte-3">3</td>
+            </tr>
+            <tr>
+              <th>7</th>
+              <td title="0x70" class="table-byte-4">4</td>
+              <td title="0x71" class="table-byte-4">4</td>
+              <td title="0x72" class="table-byte-4">4</td>
+              <td title="0x73" class="table-byte-4">4</td>
+              <td title="0x74" class="table-byte-4">4</td>
+              <td title="0x75" class="table-byte-4">4</td>
+              <td title="0x76" class="table-byte-4">4</td>
+              <td title="0x77" class="table-byte-4">4</td>
+              <td title="0x78" class="table-byte-5">5</td>
+              <td title="0x79" class="table-byte-5">5</td>
+              <td title="0x7A" class="table-byte-5">5</td>
+              <td title="0x7B" class="table-byte-5">5</td>
+              <td title="0x7C" class="table-byte-6">6</td>
+              <td title="0x7D" class="table-byte-6">6</td>
+              <td title="0x7E" class="table-byte-7">7</td>
+              <td title="0x7F" class="table-byte-8">8+</td>
+            </tr>
+            <tr>
+              <th>8</th>
+              <td title="0x80" class="table-byte-continuation"></td>
+              <td title="0x81" class="table-byte-continuation"></td>
+              <td title="0x82" class="table-byte-continuation"></td>
+              <td title="0x83" class="table-byte-continuation"></td>
+              <td title="0x84" class="table-byte-continuation"></td>
+              <td title="0x85" class="table-byte-continuation"></td>
+              <td title="0x86" class="table-byte-continuation"></td>
+              <td title="0x87" class="table-byte-continuation"></td>
+              <td title="0x88" class="table-byte-continuation"></td>
+              <td title="0x89" class="table-byte-continuation"></td>
+              <td title="0x8A" class="table-byte-continuation"></td>
+              <td title="0x8B" class="table-byte-continuation"></td>
+              <td title="0x8C" class="table-byte-continuation"></td>
+              <td title="0x8D" class="table-byte-continuation"></td>
+              <td title="0x8E" class="table-byte-continuation"></td>
+              <td title="0x8F" class="table-byte-continuation"></td>
+            </tr>
+            <tr>
+              <th>9</th>
+              <td title="0x90" class="table-byte-continuation"></td>
+              <td title="0x91" class="table-byte-continuation"></td>
+              <td title="0x92" class="table-byte-continuation"></td>
+              <td title="0x93" class="table-byte-continuation"></td>
+              <td title="0x94" class="table-byte-continuation"></td>
+              <td title="0x95" class="table-byte-continuation"></td>
+              <td title="0x96" class="table-byte-continuation"></td>
+              <td title="0x97" class="table-byte-continuation"></td>
+              <td title="0x98" class="table-byte-continuation"></td>
+              <td title="0x99" class="table-byte-continuation"></td>
+              <td title="0x9A" class="table-byte-continuation"></td>
+              <td title="0x9B" class="table-byte-continuation"></td>
+              <td title="0x9C" class="table-byte-continuation"></td>
+              <td title="0x9D" class="table-byte-continuation"></td>
+              <td title="0x9E" class="table-byte-continuation"></td>
+              <td title="0x9F" class="table-byte-continuation"></td>
+            </tr>
+            <tr>
+              <th>A</th>
+              <td title="0xA0" class="table-byte-continuation"></td>
+              <td title="0xA1" class="table-byte-continuation"></td>
+              <td title="0xA2" class="table-byte-continuation"></td>
+              <td title="0xA3" class="table-byte-continuation"></td>
+              <td title="0xA4" class="table-byte-continuation"></td>
+              <td title="0xA5" class="table-byte-continuation"></td>
+              <td title="0xA6" class="table-byte-continuation"></td>
+              <td title="0xA7" class="table-byte-continuation"></td>
+              <td title="0xA8" class="table-byte-continuation"></td>
+              <td title="0xA9" class="table-byte-continuation"></td>
+              <td title="0xAA" class="table-byte-continuation"></td>
+              <td title="0xAB" class="table-byte-continuation"></td>
+              <td title="0xAC" class="table-byte-continuation"></td>
+              <td title="0xAD" class="table-byte-continuation"></td>
+              <td title="0xAE" class="table-byte-continuation"></td>
+              <td title="0xAF" class="table-byte-continuation"></td>
+            </tr>
+            <tr>
+              <th>B</th>
+              <td title="0xB0" class="table-byte-continuation"></td>
+              <td title="0xB1" class="table-byte-continuation"></td>
+              <td title="0xB2" class="table-byte-continuation"></td>
+              <td title="0xB3" class="table-byte-continuation"></td>
+              <td title="0xB4" class="table-byte-continuation"></td>
+              <td title="0xB5" class="table-byte-continuation"></td>
+              <td title="0xB6" class="table-byte-continuation"></td>
+              <td title="0xB7" class="table-byte-continuation"></td>
+              <td title="0xB8" class="table-byte-continuation"></td>
+              <td title="0xB9" class="table-byte-continuation"></td>
+              <td title="0xBA" class="table-byte-continuation"></td>
+              <td title="0xBB" class="table-byte-continuation"></td>
+              <td title="0xBC" class="table-byte-continuation"></td>
+              <td title="0xBD" class="table-byte-continuation"></td>
+              <td title="0xBE" class="table-byte-continuation"></td>
+              <td title="0xBF" class="table-byte-continuation"></td>
+            </tr>
+            <tr>
+              <th>C</th>
+              <td title="0xC0" class="table-byte-continuation"></td>
+              <td title="0xC1" class="table-byte-continuation"></td>
+              <td title="0xC2" class="table-byte-continuation"></td>
+              <td title="0xC3" class="table-byte-continuation"></td>
+              <td title="0xC4" class="table-byte-continuation"></td>
+              <td title="0xC5" class="table-byte-continuation"></td>
+              <td title="0xC6" class="table-byte-continuation"></td>
+              <td title="0xC7" class="table-byte-continuation"></td>
+              <td title="0xC8" class="table-byte-continuation"></td>
+              <td title="0xC9" class="table-byte-continuation"></td>
+              <td title="0xCA" class="table-byte-continuation"></td>
+              <td title="0xCB" class="table-byte-continuation"></td>
+              <td title="0xCC" class="table-byte-continuation"></td>
+              <td title="0xCD" class="table-byte-continuation"></td>
+              <td title="0xCE" class="table-byte-continuation"></td>
+              <td title="0xCF" class="table-byte-continuation"></td>
+            </tr>
+            <tr>
+              <th>D</th>
+              <td title="0xD0" class="table-byte-continuation"></td>
+              <td title="0xD1" class="table-byte-continuation"></td>
+              <td title="0xD2" class="table-byte-continuation"></td>
+              <td title="0xD3" class="table-byte-continuation"></td>
+              <td title="0xD4" class="table-byte-continuation"></td>
+              <td title="0xD5" class="table-byte-continuation"></td>
+              <td title="0xD6" class="table-byte-continuation"></td>
+              <td title="0xD7" class="table-byte-continuation"></td>
+              <td title="0xD8" class="table-byte-continuation"></td>
+              <td title="0xD9" class="table-byte-continuation"></td>
+              <td title="0xDA" class="table-byte-continuation"></td>
+              <td title="0xDB" class="table-byte-continuation"></td>
+              <td title="0xDC" class="table-byte-continuation"></td>
+              <td title="0xDD" class="table-byte-continuation"></td>
+              <td title="0xDE" class="table-byte-continuation"></td>
+              <td title="0xDF" class="table-byte-continuation"></td>
+            </tr>
+            <tr>
+              <th>E</th>
+              <td title="0xE0" class="table-byte-continuation"></td>
+              <td title="0xE1" class="table-byte-continuation"></td>
+              <td title="0xE2" class="table-byte-continuation"></td>
+              <td title="0xE3" class="table-byte-continuation"></td>
+              <td title="0xE4" class="table-byte-continuation"></td>
+              <td title="0xE5" class="table-byte-continuation"></td>
+              <td title="0xE6" class="table-byte-continuation"></td>
+              <td title="0xE7" class="table-byte-continuation"></td>
+              <td title="0xE8" class="table-byte-continuation"></td>
+              <td title="0xE9" class="table-byte-continuation"></td>
+              <td title="0xEA" class="table-byte-continuation"></td>
+              <td title="0xEB" class="table-byte-continuation"></td>
+              <td title="0xEC" class="table-byte-continuation"></td>
+              <td title="0xED" class="table-byte-continuation"></td>
+              <td title="0xEE" class="table-byte-continuation"></td>
+              <td title="0xEF" class="table-byte-continuation"></td>
+            </tr>
+            <tr>
+              <th>F</th>
+              <td title="0xF0" class="table-byte-continuation"></td>
+              <td title="0xF1" class="table-byte-continuation"></td>
+              <td title="0xF2" class="table-byte-continuation"></td>
+              <td title="0xF3" class="table-byte-continuation"></td>
+              <td title="0xF4" class="table-byte-continuation"></td>
+              <td title="0xF5" class="table-byte-continuation"></td>
+              <td title="0xF6" class="table-byte-continuation"></td>
+              <td title="0xF7" class="table-byte-continuation"></td>
+              <td title="0xF8" class="table-byte-continuation"></td>
+              <td title="0xF9" class="table-byte-continuation"></td>
+              <td title="0xFA" class="table-byte-continuation"></td>
+              <td title="0xFB" class="table-byte-continuation"></td>
+              <td title="0xFC" class="table-byte-continuation"></td>
+              <td title="0xFD" class="table-byte-continuation"></td>
+              <td title="0xFE" class="table-byte-continuation"></td>
+              <td title="0xFF" class="table-byte-continuation"></td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Unlike UTF-8000 which <a href="#never-c0-c1">can never use the bytes 0xC0 and 0xC1</a>, ASCVI uses all 256 possible bytes. Which of these is the advantageous behavior depends on whether one wants to do something extraordinary with those two bytes, or one wants to dissuade their use in chicanery.</p>
+
+        <h3>Intuitive Derivation</h3>
+        <p>See the <a href="#sec-intuitive-derivation">intuitive derivation of UTF-8000</a> for how one might come up with this.</p>
+
+        <h3>Naming</h3>
+        <p>The <q>II</q> in ASCII reminds me of the Roman Numerals <q>VII</q> for seven, and ASCII is a seven-bit code. Therefore for this six-bit code we choose to use the Roman Numerals for six, <q>VI</q>, and name it <q>ASCVI</q>.</p>
+
+        <h3>Verdict</h3>
+        <p>7 bit ASCII, and UTF-8 that extends it, are very well established. One-byte ASCVI is inferior to the flexibility of ASCII, albeit this contributes to UTF-8 having a slightly lower information rate for multi-byte code units. I do not yearn for an alternate universe, or a fresh start of text encoding standards, where ASCII is six-bit instead of seven.</p>
       </details>
 
       <details id="sec-rejected-utf-inf" open="true">
@@ -1088,6 +1829,11 @@
 
       <details id="sec-rejected-ucs-x" open="true">
         <summary>UCS-X</summary>
+      </details>
+
+      <details id="sec-rejected-do-nothing" open="true">
+        <summary>Do Nothing</summary>
+        <p>Better plan ahead instead of staying silent. Make it free</p>
       </details>
     </details>
 
