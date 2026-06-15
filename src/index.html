@@ -909,7 +909,7 @@
 
       <h3>No Endianness</h3>
       <p>The <q>quantum</q> of ASCII, UTF-8, and UTF-8000 is a single byte. This makes life a breeze! There is no need for a concept of endianness for UTF-8000.</p>
-      <p>UTF-16 however has a quantum of two bytes, 16-bit code units. When writing the codewords in octet bytes, should the octet containing the most significant digits or least significant digits be written first? Big endian, or little endian? This choice gives UTF-16 two variants, UTF-16-BE and UTF-16-LE. If one cannot embed into the metadata of a stream which endianness is pre-agreed upon, one may wish to use a BOM which is discussed below.</p>
+      <p>UTF-16 however has a quantum of two bytes, 16-bit code units. When writing the codewords in octet bytes, should the octet containing the most significant digits or least significant digits be written first? Big-endian, or little-endian? This choice gives UTF-16 two variants, UTF-16-BE and UTF-16-LE. If one cannot embed into the metadata of a stream which endianness is pre-agreed upon, one may wish to use a BOM which is discussed below.</p>
 
       <h3>BOM Support</h3>
       <p>A <a href="https://en.wikipedia.org/wiki/Byte_order_mark">Byte Order Mark</a> (BOM) is used at the start of an encoded text stream to indicate what encoding is used. I have never actively used BOMs myself so I've only put a bit of thought into this section.</p>
