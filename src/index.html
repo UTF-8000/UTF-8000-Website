@@ -1430,8 +1430,35 @@
         <h3>Properties</h3>
         <p>Mutatis mutandis, the properties of UTF-8000 and ASCVI apply. We only make further remarks on a couple of properties.</p>
 
+        <h4>Bit counts</h4>
+        <p>Predictable like ASCVI.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>number of bytes</th>
+              <th>number of content bits</th>
+              <th>number of mandatory content bits</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>n = 4</code></td>
+              <td><code>30</code></td>
+              <td><code>0</code></td>
+            </tr>
+            <tr>
+              <td><code>n = 4k ; k &ge; 2</code></td>
+              <td><code>30k</code></td>
+              <td><code>30</code></td>
+            </tr>
+          </tbody>
+        </table>
+
         <h4>Information Rate</h4>
         <p>Whilst the ASCVI-style UTF-32K has an information rate of <code>30 / 32 = 93.75%</code>, it is very inefficient for low-value codepoints, with the highest bytes most often being zeros. UTF-8000 has a much finer telescopic expansion mechanism at the byte level, compared to UTF-32 at a four-byte level.</p>
+
+        <h4>Self-Synchronization</h4>
+        <p>UTF-32 is not self-synchronizing at the byte level, and UTF-32K inherits this weakness. UTF-32 is only self-synchronizing at the four-byte level, similar to how UTF-16 is only self-synchronizing at the two-byte level. UTF-32K maintains self-synchronization at the four-byte level.</p>
 
         <h4>Endianness</h4>
         <p>Like UTF-16, and unlike UTF-8 and UTF-8000, UTF-32 has endianness, its quantum being a whopping four bytes.</p>
