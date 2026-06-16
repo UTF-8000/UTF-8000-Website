@@ -1,5 +1,39 @@
 body {
+  margin-block: 0;
+  margin-inline: 2ch;
+  display: flex;
+
+  /* Flex Axis */
+  justify-content: space-between;
+  gap: 2ch;
+  /* Cross Axis */
+  align-items: flex-start;
+
   background-color: bisque;
+}
+
+main {
+  /* Flex Axis */
+  overflow-x: scroll;
+}
+
+#sidebar {
+  /* Flex Axis */
+  width: 40ch;
+  flex-shrink: 0;
+  /* Cross Axis */
+  position: sticky;
+  top: 0ch;
+  height: 100vh;
+  overflow-y: auto;
+
+  background-color: blanchedalmond;
+}
+
+@media (width < 130ch) {
+  #sidebar {
+    display: none;
+  }
 }
 
 h1,
