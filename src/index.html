@@ -512,7 +512,7 @@
         <summary>Properties</summary>
         <p>Many of these properties of UTF-8000 are explained in detail in an appropriate section of the <a href="#sec-glossary">glossary</a> and hyperlinks to the glossary are provided.</p>
 
-        <h3>Bit counts</h3>
+        <h3 id="sec-properties-bit-counts">Bit counts</h3>
         <p>The number of content bits and mandatory content bits are very predictable as a function of <code>n</code>, the length of a code unit.</p>
         <table>
           <thead>
@@ -899,7 +899,7 @@
         </table>
         <p>All bytes except 0xC0 and 0xC1 can appear in a valid UTF-8000 stream. See the glossary section for <a href="#def-overlong-encoding">overlong encoding</a> for an explanation of why those two bytes never appear.</p>
 
-        <h3 id="property-strcmp">strcmp(3) ordering</h3>
+        <h3 id="sec-properties-strcmp">strcmp(3) ordering</h3>
         <p>Inherited from UTF-8 and maintained in UTF-8000.</p>
         <p>
           The <a href="#def-self-synchronization-prefix">self-synchronization prefixes</a> of first bytes are monotonically-increasing-ly ordered with respect to code unit length. In other words ASCII is of length 1 and multi-byte is of length greater than 1, and <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code> &lt; <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">11</span></code> occupying the highest bits of UTF-8000 bytes.
@@ -909,7 +909,7 @@
           >.
         </p>
         <p>The <a href="#def-content-bits">content bits</a> of code units are also monotonically-increasing-ly ordered with respect to codepoint value.</p>
-        <p>Combining these three things together means that <code>strcmp(3)</code>, the C stdlib string comparing function, works the same way on UTF-8000 bytes as it does on UTF-8, as it does on ASCII, effectively comparing the encoded codepoint values against each other. Nice!</p>
+        <p>Combining these three things together means that <code>strcmp(3)</code>, the C stdlib string comparing function, works the same way on UTF-8000 bytes as it does on UTF-8, as it does on ASCII, effectively comparing the encoded codepoint values against each other without having to actually decode the code units. Nice!</p>
 
         <h3>No Endianness</h3>
         <p>The <q>quantum</q> of ASCII, UTF-8, and UTF-8000 is a single byte. This makes life a breeze! There is no need for a concept of endianness for UTF-8000.</p>
@@ -1371,6 +1371,155 @@
 
         <details id="sec-signed-variant-twos-complement" open="true">
           <summary>Signed Variant: Two's Complement</summary>
+          <p>UTF-8000 is really just a variable-width bit container with some nice properties. We can use those bits as we please, encoding arbitrary concepts to integer codewords.</p>
+          <p>So far we have encoded the non-negative integers (unsigned integers). I have come up with a couple of modified interpretations of the content bits which allow us to encode the <em>entire</em> integers, ℤ, (signed integers). This first one uses the two's complement representation of integers. The second, using zigzag encoding, is below in a separate section.</p>
+
+          <h3>Source</h3>
+          <p>Myself: It seems like a good idea.</p>
+
+          <h3>TLDR / Examples</h3>
+          <p>We treat the <code>n</code> content bits of a code unit as a <a href="https://en.wikipedia.org/wiki/Two%27s_complement">two's complement</a> signed form, where the highest bit no longer has value <code>2 ^ (n-1)</code> but rather <code>-2 ^ (n-1)</code>.</p>
+          <table>
+            <tbody>
+              <tr>
+                <td>ASCII</td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">xxxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>UTF-8</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-optional">x</span><span class="utf-8000-bits-content-mandatory">xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-optional">x</span><span class="utf-8000-bits-content-mandatory">xxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xx</span><span class="utf-8000-bits-content-optional">xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-optional">x</span><span class="utf-8000-bits-content-mandatory">xx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxx</span><span class="utf-8000-bits-content-optional">xxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>UTF-8000</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">1110</span><span class="utf-8000-bits-content-optional">x</span><span class="utf-8000-bits-content-mandatory">x</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxx</span><span class="utf-8000-bits-content-optional">xx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>...</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>The difference in code unit layout from UTF-8000 is that the mandatory content bits are downshifted by one bit.</p>
+
+          <h3>Properties</h3>
+
+          <h4>Encoded range</h4>
+          <p>The content bit counts work <a href="#sec-properties-bit-counts">the same as they do for UTF-8000</a>. Below is a summary of the range of integers that the content bits can encode.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>code unit length</th>
+                <th>number of content bits</th>
+                <th>minimum integer</th>
+                <th>maximum integer</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>n = 1</code></td>
+                <td><code>7</code></td>
+                <td><code>-2 ^ (7n-1) ( = -64)</code></td>
+                <td><code>+2 ^ (7n-1) - 1 ( = +63)</code></td>
+              </tr>
+              <tr>
+                <td><code>n &ge; 2</code></td>
+                <td><code>5n+1</code></td>
+                <td><code>-2 ^ (5n) </code></td>
+                <td><code>+2 ^ (5n) - 1</code></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4>Overlong checking</h4>
+          <p>For signed variants of UTF-8000, anti-overlong checking requires checking that the content bits of an <code>n</code>-byte code unit encode an integer <code>z</code> from the range <code>[ -2^(5n), +2^(5n) ) \ [ -2^(5(n-1)), +2^(5(n-1)) )</code>. This may look complicated, but we can break it down into two cases:</p>
+          <p>
+            For <code>z &ge; 0</code>, the highest content bit of both <code>n</code>-byte and <code>n-1</code>-byte code units is <code class="utf-8000-bits"><span class="utf-8000-bits-content-optional">0</span></code
+            >. There must be at least one <code class="utf-8000-bits"><span class="utf-8000-bits-content-mandatory">1</span></code> bit in the following bits, which are the mandatory content bits.
+          </p>
+          <p>
+            For <code>z &lt; 0</code>, the highest content bit of both <code>n</code>-byte and <code>n-1</code>-byte code units is <code class="utf-8000-bits"><span class="utf-8000-bits-content-optional">1</span></code
+            >. This is to make <code>z</code> negative, using the <code>-2^(5n)</code> bit. There must be at least one <code class="utf-8000-bits"><span class="utf-8000-bits-content-mandatory">0</span></code> bit in the following bits, which are the mandatory content bits. If all of these bits were ones, then <code>z</code> would be at least <code>-2^(5(n-1))</code>. For example the overlong encoding
+            <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-optional">1</span><span class="utf-8000-bits-content-mandatory">1111</span></code>
+            <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">000000</span></code> encodes <code>z = -64</code> which fits into a 1-byte code unit. Encoding integers below <code>-64</code> requires subtracting from these content bits, which sets at least one of the mandatory content bits to zero.
+          </p>
+          <p>
+            UTF-8000 never uses the bytes 0xC0 and 0xC1, which is explained in the glossary section for <a href="#def-overlong-encoding">overlong encoding</a>. Slightly differently, this two's complement variant never uses the bytes 0xC0 (<code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-optional">0</span><span class="utf-8000-bits-content-mandatory">0000</span></code
+            >) or 0xDF (<code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-optional">1</span><span class="utf-8000-bits-content-mandatory">1111</span></code
+            >).
+          </p>
+
+          <h4>No strcmp ordering</h4>
+          <p>
+            Since negative integers set the highest content bit to <code class="utf-8000-bits"><span class="utf-8000-bits-content-optional">1</span></code
+            >, we lose <a href="#sec-properties-strcmp"><code>strcmp</code></a> ordering from UTF-8000. For example -1 &lt; 0 but <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">1111111</span></code> &gt; <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">0000000</span></code
+            >.
+          </p>
+          <p>The only variants of UTF-8000 that can make exact use of <code>strcmp</code> are those whose content bits encode letters from a totally-ordered alphabet, for which there exists an order-preserving bijection between that alphabet and the unsigned integers. Since the unsigned integers have a minimal element, 0, and the signed integers do not, no such bijection exists.</p>
+          <p>This is okay, as the purpose of <code>strcmp</code> with respect to UTF-8000 is for comparing codepoints, aka unsigned integers, without having to decode a code unit. If we wanted to we could always invent another string comparing function different from <code>strcmp</code> specifically for this variant.</p>
+
+          <h3>Verdict</h3>
+          <p>Two's complements is a familiar and intuitive way to encode signed integers. That is the primary reason why this idea does not go straight into the <a href="#sec-rejected-alternatives">rejected alternatives</a>.</p>
+          <p>
+            A big downside of this two's complement signed variant is that its anti-overlong checking mechanism differs from that of UTF-8000 because of the 1-bit-downshifted position of the mandatory content bits. Consequently it is not possible to agnostically decode a stream of these bytes as though they were UTF-8000 bytes. For example, a 0xC1 byte is valid in this variant as <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-optional">0</span><span class="utf-8000-bits-content-mandatory">0001</span></code
+            >, but is invalid in UTF-8000 as <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">0000</span><span class="utf-8000-bits-content-optional">1</span></code
+            >.
+          </p>
         </details>
 
         <details id="sec-utf-16k" no-open="true">
