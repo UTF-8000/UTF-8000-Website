@@ -1366,8 +1366,338 @@
         <h3>Error recovery</h3>
       </details>
 
-      <details id="sec-further-ideas" open="true">
+      <details id="sec-further-ideas" no-open="true">
         <summary>Further Ideas</summary>
+
+        <details id="sec-signed-variant-zigzag-encoding" no-open="true">
+          <summary>Signed Variant: ZigZag Encoding</summary>
+          <p>So far we have used UTF-8000 to encode codepoints, aka non-negative integers, aka unsigned integers. I have come up with a couple of modified interpretations of the content bits which allow us to encode the <em>entire</em> integers, aka the signed integers.</p>
+          <p>We make use of a marvelous bijective mapping between the signed integers and unsigned integers called the <q>zigzag function</q> that remains a bijection when restricting to the respective <code>n</code>-bit ranges. We use this as a final layer at the beginning/end of the standard UTF-8000 encoding/decoding procedure.</p>
+
+          <h3>Source</h3>
+          <p>
+            ZigZag encoding from Protobuf by Google: <i><a href="https://protobuf.dev/programming-guides/encoding/#:~:text=ZigZag">Protocol Buffers Documentation / Encoding</a></i>
+          </p>
+          <p>Myself: This seems like the perfect extensible solution for how to encode signed integers on top of UTF-8000.</p>
+
+          <h3>TLDR / Examples</h3>
+          <p>The code unit structure is identical to UTF-8000. The content bits correspond to the image of the zigzag function.</p>
+          <table>
+            <thead>
+              <tr>
+                <th><code>zigzag(z)</code></th>
+                <th><code>z</code></th>
+                <th><code>UTF-8000</code></th>
+              </tr>
+            </thead>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+            <tr>
+              <td><code>124</code></td>
+              <td><code>&emsp;62&emsp;&emsp;</code></td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">1111100</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td><code>125</code></td>
+              <td><code>-63</code></td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">1111101</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td><code>126</code></td>
+              <td><code>&emsp;63</code></td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">1111110</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td><code>127</code></td>
+              <td><code>-64</code></td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">1111111</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td><code>128</code></td>
+              <td><code>&emsp;64</code></td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">0001</span><span class="utf-8000-bits-content-optional">0</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">000000</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td><code>129</code></td>
+              <td><code>-65</code></td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">0001</span><span class="utf-8000-bits-content-optional">0</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">000001</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td><code>130</code></td>
+              <td><code>&emsp;65</code></td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">0001</span><span class="utf-8000-bits-content-optional">0</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">000010</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td><code>131</code></td>
+              <td><code>-66</code></td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">0001</span><span class="utf-8000-bits-content-optional">0</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">000011</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td>...</td>
+            </tr>
+          </table>
+
+          <h3>The ZigZag Function</h3>
+          <p>The <code>zigzag</code> function maps from the signed integers to the unsigned integers.</p>
+          <p>If <code>z &ge; 0</code> then <code>zigzag(z) = 2 * z = (z << 1)</code></p>
+          <p>If <code>z &lt; 0</code> then <code>zigzag(z) = -2 * z - 1 = -(z << 1) - 1 = ~(z << 1)</code></p>
+
+          <div style="display: flex; align-items: center; gap: 4ch">
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th><code>z</code></th>
+                    <th><code>zigzag(z)</code></th>
+                  </tr>
+                </thead>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+                <tr>
+                  <td><code>-4</code></td>
+                  <td><code>7</code></td>
+                </tr>
+                <tr>
+                  <td><code>-3</code></td>
+                  <td><code>5</code></td>
+                </tr>
+                <tr>
+                  <td><code>-2</code></td>
+                  <td><code>3</code></td>
+                </tr>
+                <tr>
+                  <td><code>-1</code></td>
+                  <td><code>1</code></td>
+                </tr>
+                <tr>
+                  <td><code>&emsp;0</code></td>
+                  <td><code>0</code></td>
+                </tr>
+                <tr>
+                  <td><code>&emsp;1</code></td>
+                  <td><code>2</code></td>
+                </tr>
+                <tr>
+                  <td><code>&emsp;2</code></td>
+                  <td><code>4</code></td>
+                </tr>
+                <tr>
+                  <td><code>&emsp;3</code></td>
+                  <td><code>6</code></td>
+                </tr>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th><code>zigzag(z)</code></th>
+                    <th><code>z</code></th>
+                  </tr>
+                </thead>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+                <tr>
+                  <td><code>0</code></td>
+                  <td><code>&emsp;0</code></td>
+                </tr>
+                <tr>
+                  <td><code>1</code></td>
+                  <td><code>-1</code></td>
+                </tr>
+                <tr>
+                  <td><code>2</code></td>
+                  <td><code>&emsp;1</code></td>
+                </tr>
+                <tr>
+                  <td><code>3</code></td>
+                  <td><code>-2</code></td>
+                </tr>
+                <tr>
+                  <td><code>4</code></td>
+                  <td><code>&emsp;2</code></td>
+                </tr>
+                <tr>
+                  <td><code>5</code></td>
+                  <td><code>-3</code></td>
+                </tr>
+                <tr>
+                  <td><code>6</code></td>
+                  <td><code>&emsp;3</code></td>
+                </tr>
+                <tr>
+                  <td><code>7</code></td>
+                  <td><code>-4</code></td>
+                </tr>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <pre>
+       ______________
+      /  __________  \
+     /  /  ______  \  \
+    /  /  /  __  \  \  \
+   /  /  /  /  \  \  \  \
+  -4 -3 -2 -1  0  1  2  3
+   \  \  \  \_____/  /  /
+    .  \  \_________/  /
+     .  \_____________/
+      .
+              </pre>
+            </div>
+          </div>
+          <p>The ASCII art above illustrates the enumeration of the preimage of <code>zigzag</code>, showing it zigzagging between positives and negatives. This should make it clear how after <code>2^N</code> steps we have covered exactly the range <code>[-2^(N-1), 2^(N-1))</code>.</p>
+          <p>For example the preimage of the 7-bit unsigned range <code>[0, 128)</code> is the 7-bit signed range <code>[-64, 64)</code>.</p>
+
+          <h4>Branchless ZigZag</h4>
+          <p>If one is dealing with fixed-width integers, for example mapping from <code>int32_t</code> to <code>uint32_t</code>, one can create a branchless version of <code>zigzag</code>, wow! CPUs like branchless code.</p>
+          <p>
+            With this example <code>zigzag(z) = (z << 1) ^ (z >> 31)</code>, where <q><code>^</code></q> here is the C bitwise-xor operator.
+          </p>
+          <p>If <code>2^31 &gt; z &ge; 0</code> then <code>(z >> 31) = 0</code>, because we have filled the register with the highest bit of a non-negative signed number, 0. Thus <code>zigzag(z) = (z << 1) ^ (z >> 31)</code>. Okay, nothing special?</p>
+          <p>But if <code>-2^31 &le; z &lt; 0</code> then <code>(z >> 31) = -1</code>, because we have filled the register with the highest bit of a negative signed number, 1. Aha, so to achieve the bitwise complement, <code>~(z << 1)</code>, we can bitwise-xor with this <code>-1</code>. Thus <code>zigzag(z) = (z << 1) ^ (z >> 31)</code>.</p>
+
+          <h3>Properties</h3>
+          <p>Self-synchronization, self-punctuation, and arbitrary code unit length have the same conclusion as base UTF-8000. Properties that differ are discussed below.</p>
+
+          <h4>Encoded range</h4>
+          <p>The content bit counts work <a href="#sec-properties-bit-counts">the same as they do for UTF-8000</a>. Below is a summary of the ranges of integers that the content bits encode.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>code unit length</th>
+                <th>number of content bits</th>
+                <th>minimum integer</th>
+                <th>maximum integer</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>n = 1</code></td>
+                <td><code>7</code></td>
+                <td><code>-2 ^ (7n-1) ( = -64)</code></td>
+                <td><code>+2 ^ (7n-1) - 1 ( = +63)</code></td>
+              </tr>
+              <tr>
+                <td><code>n &ge; 2</code></td>
+                <td><code>5n+1</code></td>
+                <td><code>-2 ^ (5n) </code></td>
+                <td><code>+2 ^ (5n) - 1</code></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4>Small integers, small code units</h4>
+          <p>UTF-8000 is really just a variable-width bit container with some nice properties. Provided that we obey the forbidding of overlong encoding, we can use the content bits as we please, encoding from an arbitrary alphabet to unsigned integer codewords that form the content bits.</p>
+          <p>The alphabet in question for us is the signed integers, ℤ. We heuristically think of magnitude as a measure of commonness. The closer an integer is to zero, the more common it is, and thus the smaller the unsigned integer that it should be encoded as, whence the shorter the UTF-8000 code unit it occupies. This is almost common sense.</p>
+          <p>We have observed that <code>zigzag</code> achieves this. Two's complements in a fixed-width register however does <em>not</em> do this, as for example in a 64-bit CPU register the number -1 is encoded as <code>111...[64]...11</code>. This is not a problem for hardware like CPUs, but we are interested in efficient encoding for transmission and storage.</p>
+
+          <h4>Modified strcmp(3) ordering</h4>
+          <p>
+            Since the negative integers are interwoven (zigzagged) between the non-negative integers via <code>zigzag</code>, we lose <a href="#sec-properties-strcmp"><code>strcmp ordering</code></a> from UTF-8000. For example -1 &lt; 0 but <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">0000001</span></code> &gt; <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">0000000</span></code
+            >. However, being undeterred we can supersede this fact.
+          </p>
+          <p>The purpose of <code>strcmp(s1, s2)</code> with respect to UTF-8000 is to quickly compare code units <code>s1</code> and <code>s2</code> as a proxy for comparing their contained codepoints, without having to actually decode the code units. For this modified version of UTF-8000 we wish to create a quick proxy for comparing the contained signed integers.</p>
+          <p>The only variants of UTF-8000 that can make exact use of <code>strcmp</code> are those whose content bits encode letters from a totally-ordered alphabet, for which there exists an order-preserving bijection between that alphabet and the unsigned integers. Since the unsigned integers has a minimum element, 0, and the signed integers (our alphabet) does not have a minimum element, no such bijection exists.</p>
+          <p>We know that <code>zigzag(z)</code> breaks nicely into two cases, non-negative signed integers and negative signed integers. We also know that order-preserving bijections <em>do</em> exist between 0) non-negative signed integers and the even unsigned integers, and 1) negative signed integers and the odd unsigned integers. We initially break our new <code>strcmpsigned(s1, s2)</code> function into four cases depending on the final bit of each code unit, which we know is a content bit and indicates whether the stored unsigned integer is even or odd. We can obtain these bits via <code>b1 = c1 & 1</code> and <code>b2 = c2 & 1</code> where <code>c1</code> and <code>c2</code> are the final bytes of the respective code units:</p>
+          <table>
+            <thead>
+              <tr>
+                <th><code>b1</code></th>
+                <th><code>b2</code></th>
+                <th><code>comment</code></th>
+                <th><code>b2 - b1</code></th>
+                <th><code>1 - b1 - b2</code></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>0</code></td>
+                <td><code>0</code></td>
+                <td><code>s1 ? s2</code></td>
+                <td><code>&emsp;0</code></td>
+                <td><code>&emsp;1</code></td>
+              </tr>
+              <tr>
+                <td><code>0</code></td>
+                <td><code>1</code></td>
+                <td><code>s1 &gt; s2</code></td>
+                <td><code>&emsp;1</code></td>
+                <td><code>&emsp;0</code></td>
+              </tr>
+              <tr>
+                <td><code>1</code></td>
+                <td><code>0</code></td>
+                <td><code>s1 &lt; s2</code></td>
+                <td><code>-1</code></td>
+                <td><code>&emsp;0</code></td>
+              </tr>
+              <tr>
+                <td><code>1</code></td>
+                <td><code>1</code></td>
+                <td><code>s1 ? s2</code></td>
+                <td><code>&emsp;0</code></td>
+                <td><code>-1</code></td>
+              </tr>
+            </tbody>
+          </table>
+          <p>If <code>b2 - b1</code> is non-zero then <code>strcmpsigned</code> can return that, as we are effectively comparing two signed integers of a different sign. Otherwise <code>(1 - b1 - b2) * strcmp(s1, s2)</code> effectively compares two integers of the same sign. We could therefore write this as:</p>
+          <p>
+            <code>strcmpsigned(s1, s2) = (b2 - b1) ? (b2 - b1) : (1 - b1 - b2) * strcmp(s1, s2)</code>
+          </p>
+          <p>That's pretty succinct! I have also assumed that <code>strcmp</code> is just the simple <code>{-1, 0, +1}</code> version.</p>
+
+          <h3>Verdict</h3>
+          <p>
+            I like it! I'll add it to the <a href="#sec-reference-implementation">reference implementation</a> when I get chance. It will most likely be a flag <q><code>-z</code></q> for <q>zigzag</q> used like <code>$ utf-8000 info -z -- -67</code> showing <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">0001</span><span class="utf-8000-bits-content-optional">0</span></code> <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">000101</span></code
+            >.
+          </p>
+          <p>This zigzag variant has a big advantage over the rejected <a href="#sec-rejected-signed-variant-twos-complement">two's complement signed variant</a> in that we don't need to change how we do overlong checking from the standard UTF-8000 method. This means that we can effectively separate out into <q>layers</q>: 1) the overlong checking of code units and the extracting of their content bits, from 2) the further decoding of the content bits eg to a signed integer.</p>
+          <p>The only external metadata needed when decoding a stream of UTF-8000 bytes is <q>is this unsigned or signed?</q>. This is no different to decoding a stream of raw bytes, or inspecting fixed-width integers stored in two's complement form in a CPU register: it's up to the programmer's use-case to know whether signed or unsigned is expected.</p>
+        </details>
 
         <details id="sec-utf-16k" no-open="true">
           <summary>UTF-16K</summary>
@@ -2988,6 +3318,7 @@
         <li><a href="#sec-decoding">Decoding</a></li>
         <li><a href="#sec-further-ideas">Further Ideas</a></li>
         <ul>
+          <li><a href="#sec-signed-variant-zigzag-encoding">Signed Variant: ZigZag Encoding</a></li>
           <li><a href="#sec-utf-16k">UTF-16K</a></li>
           <li><a href="#sec-utf-32k">UTF-32K</a></li>
         </ul>
