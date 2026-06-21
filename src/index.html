@@ -543,7 +543,7 @@
           </tbody>
         </table>
 
-        <h3>Why the Special Cases?</h3>
+        <h3 id="sec-properties-special-cases">Why the Special Cases?</h3>
         <p>As stated in the <a href="#sec-tldr">tldr</a>, there are only two special cases, both of which are inherited from UTF-8:</p>
         <p><b>1-byte UTF-8 (ASCII)</b> which has two points of interest:</p>
         <ul>
@@ -557,16 +557,16 @@
         <p>The remarkable fact that UTF-8000 does not introduce any new special cases in extending UTF-8 is confirmation to me that this is the canonical, correct way to extend UTF-8. In other words UTF-8 in its current restricted 4 byte form <em>is</em> UTF-8000, but only a small part of it.</p>
         <p>The fact that we are even able to extend in the first place is also testament to the clever planning and care that Ken Thompson and Rob Pike put into the architecture of UTF-8, which we ensure to maintain as we extend to UTF-8000. Unary code codewords for the start bits sequences, which form a self-similar tree, were a great choice being simple and extensible. This is why I think of UTF-8 as the capstone of the Unix Philosophy.</p>
 
-        <h3>Information Rate</h3>
+        <h3 id="sec-properties-information-rate">Information Rate</h3>
         <p>What proportion of a code unit is content bits?</p>
         <p>For ASCII this is <code>7/8 = 87.5%</code>.</p>
         <p>Otherwise for an <code>n</code> byte code unit this is <code>(5n+1) / 8n</code>, that is <code>5n+1</code> content bits out of a total of <code>8n</code> bits from <code>n</code> bytes. We can rewrite this as <code>(5/8) + 1/(8n)</code> which moderately quickly approaches <code>5/8 = 62.5%</code>. It is nice that this limit is nonzero and does not depend on <code>n</code>.</p>
 
-        <h3>Self-Synchronization</h3>
+        <h3 id="sec-properties-self-synchronization">Self-Synchronization</h3>
         <p>Inherited from UTF-8 and maintained in UTF-8000.</p>
         <p>See the glossary section for <a href="#def-self-synchronization-prefix">self synchronization prefix</a> for an explanation of self-synchronization.</p>
 
-        <h3>Self-Punctuation</h3>
+        <h3 id="sec-properties-self-punctuation">Self-Punctuation</h3>
         <p>Inherited from UTF-8 and maintained in UTF-8000.</p>
         <p>See the glossary section for <a href="#def-start-bits">start bits</a> for an explanation of self-punctuation.</p>
 
@@ -913,18 +913,18 @@
         <p>The <a href="#def-content-bits">content bits</a> of code units are also monotonically-increasing-ly ordered with respect to codepoint value.</p>
         <p>Combining these three things together means that <code>strcmp(3)</code>, the C stdlib string comparing function, works the same way on UTF-8000 bytes as it does on UTF-8, as it does on ASCII, effectively comparing the encoded codepoint values against each other without having to actually decode the code units. Nice!</p>
 
-        <h3>No Endianness</h3>
+        <h3 id="sec-properties-no-endianness">No Endianness</h3>
         <p>The <q>quantum</q> of ASCII, UTF-8, and UTF-8000 is a single byte. This makes life a breeze! There is no need for a concept of endianness for UTF-8000.</p>
         <p>UTF-16 however has a quantum of two bytes, 16-bit units. When writing the codewords in bytes, 8-bit units, should the byte containing the most significant digits or least significant digits be written first? Big-endian, or little-endian? This choice gives UTF-16 two variants, UTF-16-BE and UTF-16-LE. If one cannot predetermine the endianness of a stream, one may wish to use a BOM which is discussed below.</p>
 
-        <h3>BOM Support</h3>
+        <h3 id="sec-properties-bom-support">BOM Support</h3>
         <p>A <a href="https://en.wikipedia.org/wiki/Byte_order_mark">Byte Order Mark</a> (BOM) is used at the start of an encoded text stream to indicate what encoding is used. I have never actively used BOMs myself so I've only put a bit of thought into this section.</p>
         <p>As far as I'm aware we don't break BOM support for UTF-8, though we may wish to have a different BOM to strictly distinguish UTF-8 from UTF-8000. Maybe UTF-8000 could have multiple BOMs, one for each integer N greater than or equal to four, to indicate to a decoder the maximum expected code unit length.</p>
         <p>
           One of the reasons why <code>U+FFFE</code> is not a valid Unicode Scalar Value is because <code>0xFE 0xFF</code> is the BOM for UTF-16. Since UTF-16 code units are two bytes wide, one may read either <code>0xFE 0xFF</code> or <code>0xFF 0xFE</code> depending on endianness. To make it clear that <code>0xFF 0xFE</code> implies <q>correct for endianness</q> and cannot be mistaken for a legitimate character, <code>U+FFFE</code> is designated as <code>&lt;noncharacter-FFFE&gt;</code>. We are relieved in that neither <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111111</span></code> <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111110</span></code> nor <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111110</span></code> <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111111</span></code> are valid UTF-8000 sequence extracts, ie UTF-8000 does not introduce incompatibilities with UTF-16.
         </p>
 
-        <h3>Arbitrary Lengths, Sensible Limits</h3>
+        <h3 id="sec-properties-arbitrary-lengths-sensible-limits">Arbitrary Lengths, Sensible Limits</h3>
         <p>I think we've made it clear by now that UTF-8000 code units can be arbitrarily large. In practice however one <em>may</em> wish to set a sensible limit on code unit lengths when decoding. Here we'll discuss a method of finding some nice code unit lengths whose code units store <code>5n+1 = 2^N</code> bits, as we are often interested in powers of 2 in computer science.</p>
         <p>It is a common observation that 3-byte UTF-8 stores <code>5 * 3 + 1 = 16</code> bits, meaning the <a href="https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane">Basic Multilingual Plane</a> of Unicode can be encoded in one two and three byte UTF-8. We see that <code>2^4 mod5 = 16 mod5 = 1 mod5</code>; if <code>5n+1</code> is to be <code>2^N</code> for some <code>n</code> then certainly <code>2^N = 1 mod5</code>. If we enumerate powers of two modulo five then there is a very predictable repeating pattern of <q>1, 2, 4, 3</q>. Formally you might say that 2 is a generator of 𝔽<sub>5</sub><sup>*</sup> if you want impress a mathematician! The takeaway is that when <code>N=4K</code> for <code>K&ge;1</code> we can find a corresponding <code>n</code> such that <code>5n+1 = 2^N</code>. We can rewrite <code>2^N</code> as <code>2^(4K) = 16^K</code>.</p>
         <p>In other words <q>any power of 16 has a UTF-8000 code unit length containing that many digits</q>. Here are a few of these for reference.</p>
@@ -3299,6 +3299,18 @@
           <li><a href="#def-overlong-encoding">Overlong Encoding</a></li>
         </ul>
         <li><a href="#sec-properties">Properties</a></li>
+        <ul>
+          <li><a href="#sec-properties-bit-counts">Bit counts</a></li>
+          <li><a href="#sec-properties-special-cases">Why the Special Cases?</a></li>
+          <li><a href="#sec-properties-information-rate">Information Rate</a></li>
+          <li><a href="#sec-properties-self-synchronization">Self-Synchronization</a></li>
+          <li><a href="#sec-properties-self-punctuation">Self-Punctuation</a></li>
+          <li><a href="#sec-properties-byte-map">Byte map</a></li>
+          <li><a href="#sec-properties-strcmp">strcmp(3) ordering</a></li>
+          <li><a href="#sec-properties-no-endianness">No Endianness</a></li>
+          <li><a href="#sec-properties-bom-support">BOM Support</a></li>
+          <li><a href="#sec-properties-arbitrary-lengths-sensible-limits">Arbitrary Lengths, Sensible Limits</a></li>
+        </ul>
         <li><a href="#sec-intuitive-derivation">Intuitive Derivation</a></li>
         <li><a href="#sec-encoding">Encoding</a></li>
         <li><a href="#sec-decoding">Decoding</a></li>
