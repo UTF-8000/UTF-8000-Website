@@ -1973,7 +1973,7 @@
           <h4>Self-Synchronization</h4>
           <p>UTF-16K does not have self-synchronization at the byte level because UTF-16 does not. If one experiences a single missing byte then potentially the whole stream becomes corrupted.</p>
           <p>
-            At the two-byte level UTF-16 has self-synchronization which UTF-16K inherits. Non-surrogate codepoints are quantum; they are to UTF-16 as ASCII is to UTF-8. Surrogate pairs provide self-synchronization with their <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span></code> and <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span></code> high and low surrogate prefixes. Why the designers of UTF-16 called the former <q>high</q> and the latter <q>low</q> even though the <q>high</q> has a lower binary value than the <q>low</q> I'm not sure...
+            At the two-byte level UTF-16 has self-synchronization which UTF-16K inherits. Non-surrogate codepoints are quantum; they are to UTF-16 as ASCII is to UTF-8. Surrogate pairs provide self-synchronization with their <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span></code> and <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span></code> high and low surrogate prefixes.
           </p>
           <p>
             UTF-16K goes even deeper, using multiple surrogate pairs that usurp and shadow Plane 13, to encode arbitrary codepoints. Within the surrogate-pair self-synchronization level, within the high surrogates used to encode UTF-16K, <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-unknown">xxxxxx</span></code
@@ -1992,10 +1992,10 @@
 
           <h3>Verdict</h3>
           <p>
-            I don't care for UTF-16. The immature part of me says <q>let UTF-16 decay and die as the short-sighted, legacy, Windows, <code>wchar_t</code>, non-self-synchronizing-at-the-byte-level, +0x10000, garbage that it is</q>. But it will be around for a while, with <a href="https://en.wikipedia.org/wiki/UTF-16#Usage">several uses</a>, like the <a href="https://en.wikipedia.org/wiki/ISO_9660#Joliet">Joliet Filesystem</a> for my beloved Arch Linux ISOs grrr.
+            The immature part of me says <q>let UTF-16 decay and die as the short-sighted, legacy, Windows, <code>wchar_t</code>, non-self-synchronizing-at-the-byte-level, +0x10000, garbage that it is</q>. But it will be around for a while, with <a href="https://en.wikipedia.org/wiki/UTF-16#Usage">several uses</a>, like the <a href="https://en.wikipedia.org/wiki/ISO_9660#Joliet">Joliet Filesystem</a> for my beloved Arch Linux ISOs grrr.
           </p>
           <p>The main reason I wrote this section was to provide an alternative to <a href="#sec-rejected-ucs-x">UCS-X</a>, so that we can use the same(ish) style as UTF-8000, and lest UCS-X or an even uglier idea come along.</p>
-          <p>The requirement to extend the list of codepoints that one is forbidden from encoding, to include Plane 13 or elsewhere, would not be an easily achieved feat.</p>
+          <p>The requirement to extend the list of codepoints that one is forbidden from encoding, to include Plane 13 or elsewhere, would not be an easily achieved feat. It would have to be debated with the Unicode Consortium.</p>
           <p>For modern choices UTF-8 / UTF-8000 is undoubtedly the way to go.</p>
         </details>
 
