@@ -2908,7 +2908,7 @@
 
           <h3>Source</h3>
           <p>
-            Perl5 on GitHub: <i><a href="https://github.com/Perl/perl5/blob/8848c13d93120f501f8dc6f9ba087f53dc743993/utf8.h#L370">utf8.h</a></i>
+            Larry Wall for Perl5 on GitHub: <i><a href="https://github.com/Perl/perl5/blob/8848c13d93120f501f8dc6f9ba087f53dc743993/utf8.h#L370">utf8.h</a></i>
           </p>
           <p>A comment reads: <q>A note on nomenclature: The term UTF-8 is used loosely and inconsistently in Perl documentation ... perl uses an extension of UTF-8 to represent code points that Unicode considers illegal.</q>.</p>
 
@@ -2917,6 +2917,24 @@
             <tbody>
               <tr>
                 <td>...</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">111110</span><span class="utf-8000-bits-content-mandatory">xx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxx</span><span class="utf-8000-bits-content-optional">xxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
               </tr>
               <tr>
                 <td>6</td>
@@ -2929,7 +2947,12 @@
                 <td>
                   <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
                 </td>
-                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
                 <td>
                   <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
                 </td>
@@ -2945,7 +2968,15 @@
                 <td>
                   <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
                 </td>
-                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
                 <td>
                   <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
                 </td>
@@ -2956,10 +2987,25 @@
                   <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
                 </td>
                 <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-unknown">000000</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-mandatory">0xxx</span></code>
+                </td>
+                <td>
                   <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxxxx</span></code>
                 </td>
                 <td>
                   <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
                 </td>
                 <td>...</td>
                 <td>
@@ -2990,19 +3036,19 @@
               </tr>
               <tr>
                 <td><code>n = 13</code></td>
-                <td><code>72?</code></td>
+                <td><code>63/64 used, up to 72?</code></td>
               </tr>
             </tbody>
           </table>
 
           <h4>Why 13 Bytes Instead Of 12?</h4>
           <p>
-            Encoding the maximum possible signed 64-bit integer, 0x7FFF_FFFF_FFFF_FFFF, in Perl utf8 returns <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code> <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">000000</span></code> <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">000111</span></code> ... <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">111111</span></code
-            >. Even if the maximum possible unsigned 64-bit integer, 0xFFFF_FFFF_FFFF_FFFF, were encodable it would fit into the lower 11 bytes. So why use 13 bytes instead of 12, with the second byte always <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">000000</span></code
+            Encoding the maximum possible signed 64-bit integer, 0x7FFF_FFFF_FFFF_FFFF, in Perl utf8 returns <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code> <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-unknown">000000</span></code> <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-mandatory">0111</span></code> ... <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">111111</span></code
+            >. Even if the maximum possible unsigned 64-bit integer, 0xFFFF_FFFF_FFFF_FFFF, were encodable it could fit into the lower 11 bytes. So why use 13 bytes instead of 12, with the second byte always <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-unknown">000000</span></code
             >?
           </p>
           <p>
-            My guess is that the designers were going to use a <a href="#sec-rejected-utf-infinity">UTF-Infinity</a> style <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code> <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">111110</span><span class="utf-8000-bits-content-mandatory">00</span></code> opening, but then they recognized that they would lose self-synchronization because the second byte looks like the start of a 5-byte utf8 sequence. Therefore they swapped the second byte to a <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">000000</span></code
+            My guess is that the designers were going to use a <a href="#sec-rejected-utf-infinity">UTF-Infinity</a> style <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code> <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">111110</span><span class="utf-8000-bits-unknown">00</span></code> opening, but then they recognized that they would lose self-synchronization because the second byte looks like the start of a 5-byte utf8 sequence. Therefore they swapped the second byte to a <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-unknown">000000</span></code
             >. They could have removed it and used 12 bytes, but that would preclude any future reunification with e.g. UTF-8000, which with 12 bytes has only <code>5 * 12 + 1 = 61</code> content bits which is less than 64, but with 13 bytes has <code>5 * 13 + 1 = 66</code> which is sufficient.
           </p>
 
