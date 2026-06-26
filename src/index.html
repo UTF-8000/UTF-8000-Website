@@ -1493,10 +1493,118 @@
         <p>And we're done!</p>
       </details>
 
-      <details id="sec-decoding" open="true">
+      <details id="sec-decoding" no-open="true">
         <summary>Decoding</summary>
-        <img src="/overlong-window.gif" />
+        <p>As with the encoding section, this section is based off the <a href="#sec-reference-implementation">reference implementation</a> which is written in Python and well documented.</p>
+        <p>Suppose that we are receiving a stream of UTF-8000 bytes (possibly with errors!), and we wish to extract and taxonomically annotate the incoming code units. There are a few ways that we could approach this, such as using the <a href="#sec-properties-byte-map">byte map</a> as a state machine, which I want to try in the future, or the classic way of using bitwise masks. We are going to use the latter approach in this section, as we describe how to decode a single code unit. But first, a look at error handling.</p>
+
         <h3>Error Recovery</h3>
+        <p>The errors that can occur when decoding a UTF-8000 stream are:</p>
+        <ol>
+          <li id="sec-decoding-error-1">
+            Reading a continuation byte (<code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-continuation">10</span></code
+            >) when we are expecting the first byte of a code unit (<code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code> or <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">11</span></code
+            >).
+          </li>
+          <li id="sec-decoding-error-2">
+            Reading a first byte (<code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-continuation">0</span></code> or <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-continuation">11</span></code
+            >) when we are expecting a continuation byte (<code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-continuation">10</span></code
+            >).
+          </li>
+          <li id="sec-decoding-error-3">Early EOF midway through a code unit.</li>
+          <li id="sec-decoding-error-4">
+            Encountering an overlong encoding
+            <ol>
+              <li id="sec-decoding-error-4-1">
+                For 2-byte code units this is bytes 0xC0 (<code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">0000</span><span class="utf-8000-bits-content-optional">0</span></code
+                >) and 0xC1 (<code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">0000</span><span class="utf-8000-bits-content-optional">1</span></code
+                >).
+              </li>
+              <li id="sec-decoding-error-4-2">
+                For <code>n</code>-byte code units in general, with <code>n &gt; 2</code>, eg
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">0000</span></code>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">0</span><span class="utf-8000-bits-content-optional">10111</span></code>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">010000</span></code
+                >.
+              </li>
+            </ol>
+          </li>
+          <li id="sec-decoding-error-5">Encountering an encoded surrogate codepoint in the range <code>U+D800</code> to <code>U+DFFF</code>, which is forbidden for compatibility with UTF-16.</li>
+        </ol>
+        <p>For standard UTF-8 one would also have to be concerned with codepoints beyond the range <code>U+10FFFF</code> whence bytes 0xF5 to 0xFF go unused.</p>
+
+        <p>For any of these errors a parser could raise an exception and refuse to continue. Alternatively it could take advantage of UTF-8000's self-synchronization property, and <q>keep calm and carry on</q>, yielding Unicode replacement characters <code>U+FFFD</code> <q>&#xFFFD;</q> until we reach the first byte of the next code unit. Let us investigate the latter course.</p>
+        <p>To handle error 1. the parser should return one &#xFFFD; and get ready to parse the next code unit. When handling error 2. the parser should make sure to <q>unpop</q> the byte encountered, as it is the first byte of the next code unit. When handling errors 2. through to 5. there are a couple of mainstream approaches for yielding &#xFFFD; characters:</p>
+        <h4>Maximal Subpart</h4>
+        <p>
+          The Unicode Consortium recommends, but <a href="https://www.unicode.org/versions/Unicode16.0.0/core-spec/chapter-3/#:~:text=Although the Unicode Standard does not require,gives detailed examples">does not enforce</a>, a <q>maximal subpart</q> approach, in which the longest well-formed part of a code unit should return a single &#xFFFD; character, rather than one for each byte involved. For example the three bytes in error 4.2. above should return one &#xFFFD; as it is well-formed with respect to self-synchronization and self-punctuation, and only invalid at an overlong level, being an overlong encoding of
+          <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">1011</span><span class="utf-8000-bits-content-optional">1</span></code>
+          <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">010000</span></code>
+          <code>U+05D0</code>, a Hebrew letter Aleph '&#x05D0;'.
+        </p>
+        <p>
+          I dislike this approach. Waiting for maximal subparts has the problem that the rest of an invalid code unit may never arrive. If we receive the bytes
+          <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">0000</span></code>
+          <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">0</span><span class="utf-8000-bits-content-optional">10111</span></code>
+          from a socket, then the remote end may be waiting for us to chastise their overlong opening bytes with a response, because we can already tell that these bytes form part of an invalid code unit. Using the maximal subpart approach we <em>also</em> would be waiting, for the remote end to send a continuation byte eg <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">010000</span></code> to form an overlong but otherwise complete 3-byte code unit. This is uncooperative, and not what I want.
+        </p>
+
+        <h4>One &#xFFFD; For Each Byte Read</h4>
+        <p>We are going to do what Python, my terminal KDE Konsole, and others do, and simply return a &#xFFFD; character for each invalid byte. In Python <code>b'\xE0\x97\x90'.decode(errors='replace')</code> returns <code>'&#xFFFD;&#xFFFD;&#xFFFD;'</code>.</p>
+        <p>This approach is easier and more versatile. The end user can see how many invalid bytes occurred by counting the number of &#xFFFD; characters. There are no deadlock waiting events that can occur with the maximal subpart approach.</p>
+
+        <h3>The Main Decode Loop</h3>
+        <p>Initialize an empty dynamic array of bytes <code>parsed_bytes</code> that will store the bytes as we parse them.</p>
+        <p>Read a byte, store it as <code>start_byte</code>. Use bitwise masks to find the index, <code>idx_0</code>, of the most-significant zero bit in the byte. If there are no zeros in this byte, <code>idx_0</code> should be set to <code>-1</code>.</p>
+
+        <p>
+          If <code>idx_0 == 7</code> (<code class="utf-8000-byte"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">xxxxxxx</span></code
+          >) then <code>start_byte</code> is an ASCII byte, which has seven content bits. Append <code>start_byte</code> to <code>parsed_bytes</code> and we are done.
+        </p>
+
+        <p>
+          If <code>idx_0 == 6</code> (<code class="utf-8000-byte"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code
+          >) then <code>start_byte</code> is a continuation byte, which is an invalid start byte. Go to <a href="#sec-decoding-error-1">error 1</a>.
+        </p>
+
+        <p>
+          If <code>idx_0 == 5</code> (<code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">xxxx</span><span class="utf-8000-bits-content-optional">x</span></code
+          >) then this is the first byte of a 2-byte code unit. We treat this as a special case because there are only 4 mandatory content bits, not 5. As they are all contained in <code>start_byte</code> we can check them immediately for overlong encoding, to see if we need to handle <a href="#sec-decoding-error-4-1">error 4.1</a>. If <code>start_byte</code> passes this check then append it to <code>parsed_bytes</code> and await a continuation byte. Handle <a href="#sec-decoding-error-2">error 2</a> if necessary, else append the continuation byte to <code>parsed_bytes</code> and we're done.
+        </p>
+
+        <p>We could (should really) make <code>idx_0 == 4</code> a special case too, to check for and forbid the surrogate ranges. I have omitted this for the time being and we drop through to the generic case below.</p>
+
+        <p>
+          Otherwise we enter the generic case (<code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">1[1...]</span></code
+          >). Initialize an integer counter <code>n_bytes_expected</code> to 2. Increment <code>n_bytes_expected</code> by <code>5 - idx_0</code>, as <code>idx_0</code> now serves the purpose being the index of the terminating zero of the start bits, <code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code
+          >.
+        </p>
+        <p>If <code>idx_0 == -1</code> then our code unit has multiple start bytes, exciting! Append <code>start_byte</code> to <code>parsed_bytes</code>, and <code>while(1)</code>:</p>
+        <p>
+          Read a byte, and make sure it is a continuation byte lest we go to <a href="#sec-decoding-error-2">error 2</a>. Use bitwise masks to find <code>idx_0</code>, the index of the most-significant zero bit in the lowest <em>six</em> bits of the byte, setting <code>idx_0</code> to <code>-1</code> if there is none. This is to continue trying to find the <code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code> start bit. Increment <code>n_bytes_expected</code> by <code>5 - idx_0</code>. If <code>idx_0 == -1</code> then append <code>start_byte</code> to <code>parsed_bytes</code> and continue again through this loop, until we find the <code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code> bit, at which point we break this loop.
+        </p>
+
+        <p>At this stage, whether our code unit has multiple start bytes or just one, <code>start_byte</code> is the <em>final</em> start byte of the code unit, <code>idx_0</code> is between 0 and 5 (inclusive), and we move towards checking for overlong encoding. Just as <a href="https://en.wikipedia.org/wiki/Ordinal_number#Von_Neumann_definition_of_ordinals">ordinals</a> count the number of things less than themselves, <code>idx_0</code> counts the number of content bits contained <code>start_byte</code>, occupying the least significant bits.</p>
+
+        <p>There are six cases for anti-overlong checking, which correspond to <code>idx_0</code>'s value. That may sound like a lot, but the looping gif below that I made should relax you. It demonstrates periodic behavior. Even though it shows <q>deep</q> code unit sections with multiple start bytes, this animation still applies for <em>all</em> code units of length <code>n &gt; 2</code>. The colored bars are based off the <a href="#sec-anatomy">anatomy section</a> image.</p>
+        <img src="/overlong-window.gif" />
+        <p>
+          If <code>idx_0 == 5</code> then all the mandatory content bits are contained together in the final start byte. Thus we should immediately check <code>start_byte</code> using the mask <code class="utf-8000-bits"><span class="utf-8000-bits-unknown">000</span><span class="utf-8000-bits-content-mandatory">11111</span></code
+          >. We then read the first non-start byte, a continuation byte which does not need overlong checking (<code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code
+          >).
+        </p>
+        <p>
+          Otherwise we read another continuation byte, the first non-start byte. If <code>idx_0 == 0</code> then all the mandatory content bits are contained together in this first non-start byte (<code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxxx</span><span class="utf-8000-bits-content-optional">x</span></code
+          >), and we use the mask <code class="utf-8000-bits"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-mandatory">11111</span><span class="utf-8000-bits-unknown">0</span></code> to check for overlong encoding. Else <code>idx_0</code> is between 1 and 4 (inclusive) and the mandatory content bits are straddled across the final start byte and first non-start byte. In these cases we use two masks to check for overlong encoding, which one can see in the gif above.
+        </p>
+        <p>Perhaps the case of <code>idx_0 == 0</code> could be grouped in with <code>idx_0</code> being between 1 and 4, by using an empty mask to check the final start byte, in order to make the algorithm less branch-y, but this walkthrough isolates which bytes are responsible for potential overlong encoding.</p>
+
+        <p>
+          Given that the final start byte and first non-start byte have passed the overlong check, append them to <code>parsed_bytes</code>. Finally while the length of <code>parsed_bytes</code> is less than <code>n_bytes_expected</code>, read plain-old continuation bytes (<code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code
+          >) and append them to <code>parsed_bytes</code>.
+        </p>
+
+        <p>And we're done!</p>
       </details>
 
       <details id="sec-further-ideas" no-open="true">
