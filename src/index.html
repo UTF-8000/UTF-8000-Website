@@ -27,7 +27,7 @@
         <p>Try out the <a href="#sec-reference-implementation">reference implementation</a> with <code class="shell-command">$ pipx install UTF-8000</code>.</p>
       </div>
 
-      <details id="sec-tldr" no-open="true">
+      <details id="sec-tldr" open="true">
         <summary>TLDR / Examples</summary>
         <table>
           <tbody>
@@ -281,7 +281,7 @@
         <p>There are only two special cases, both of which are inherited from UTF-8: ASCII as is, and 2-byte UTF-8 having 4 mandatory content bits to check against overlong encoding as opposed to 5 for all longer length code units.</p>
       </details>
 
-      <details id="sec-anatomy" no-open="true">
+      <details id="sec-anatomy" open="true">
         <summary>Anatomy</summary>
         <p>Here is anatomical diagram of the example 22-byte code unit from the <a href="#sec-tldr">tldr</a>.</p>
         <p>See the <a href="#sec-glossary">glossary</a> for more information on the definitions of the terms.</p>
@@ -290,7 +290,7 @@
         <p>The main contribution of UTF-8000's specification is clarity on splitting the highest bits of the first byte of UTF-8 code units into <u style="color: cyan">self-synchronization bits</u> and <u style="color: magenta">start bits</u>, and then making it clear how to stripe the start bits across the continuation bytes if needed, to achieve arbitrarily large code units.</p>
       </details>
 
-      <details id="sec-glossary" no-open="true">
+      <details id="sec-glossary" open="true">
         <summary>Glossary</summary>
         <p>These terms are ordered somewhat by chronology of first requirement, rather than alphabetically, for convenience.</p>
         <p>Terms used within definitions are <a class="a-dfn" href="#sec-glossary">underlined</a> clickable hyperlinks.</p>
@@ -509,7 +509,7 @@
         </table>
       </details>
 
-      <details id="sec-properties" no-open="true">
+      <details id="sec-properties" open="true">
         <summary>Properties</summary>
         <p>Many of these properties of UTF-8000 are explained in detail in an appropriate section of the <a href="#sec-glossary">glossary</a> and hyperlinks to the glossary are provided.</p>
 
@@ -985,7 +985,7 @@
         <p>Do remember that strictly speaking one shouldn't allow overlong encodings, if one were for example thinking of storing a small <code>uint256_t</code> key in a 51 byte code unit! UTF-8000's variable width nature helps out leading to smaller code units for smaller integers.</p>
       </details>
 
-      <details id="sec-intuitive-derivation" no-open="true">
+      <details id="sec-intuitive-derivation" open="true">
         <summary>Intuitive Derivation</summary>
         <p>There are a few ways that one could arrive at the design for UTF-8000 and the bit counts above.</p>
         <p>One may think to start with UTF-8, notice that the start byte of an <code>n</code> byte code unit is prefixed with the unary codeword of length <code>n+1</code>, that is <code>n</code> <code>1</code> bits followed by a <code>0</code>, and then figure out how to extend those bits and roll them over into the continuation bytes without losing any important properties. This is what I <em>originally</em> did.</p>
@@ -1370,7 +1370,7 @@
         <p>Without the color highlighting this is how most people think about UTF-8: a start byte whose prefix of <code>n</code> <code>1</code> bits and a terminating <code>0</code> bit provides both self-synchronization and self-punctuation, and continuation bytes using a short prefix of <code>10</code> for space-efficient encoding. This makes sense for a small number of bytes, but the trick to unlock a perspective of infinite extensibility is to split this tree into the self-synchronization part and self-punctuation part; ie we un-product those prefix-free codes. Failing to do this leads to the rejected alternative <a href="#sec-rejected-utf-infinity">UTF-Infinity</a>.</p>
       </details>
 
-      <details id="sec-encoding" no-open="true">
+      <details id="sec-encoding" open="true">
         <summary>Encoding</summary>
         <p>This section is based off the <a href="#sec-reference-implementation">reference implementation</a> which is written in Python. It is well documented, and is more specific on how to use bitwise operations. This is an abridged HTML version.</p>
         <p>Suppose that we have an unsigned integer <code>n</code> that we want to encode in UTF-8000. Initialize an empty dynamic array of bytes <code>ret_ints</code> that will store the UTF-8000 code unit.</p>
@@ -1492,7 +1492,7 @@
         <p>And we're done!</p>
       </details>
 
-      <details id="sec-decoding" no-open="true">
+      <details id="sec-decoding" open="true">
         <summary>Decoding</summary>
         <p>As with the encoding section, this section is based off the <a href="#sec-reference-implementation">reference implementation</a> which is written in Python and well documented.</p>
         <p>Suppose that we are receiving a stream of UTF-8000 bytes (possibly with errors!), and we wish to extract and taxonomically annotate the incoming code units. There are a few ways that we could approach this, such as using the <a href="#sec-properties-byte-map">byte map</a> as a state machine, which I want to try in the future, or the classic way of using bitwise masks. We are going to use the latter approach in this section, as we describe how to decode a single code unit. But first, a look at error handling.</p>
@@ -1606,10 +1606,10 @@
         <p>And we're done!</p>
       </details>
 
-      <details id="sec-further-ideas" no-open="true">
+      <details id="sec-further-ideas" open="true">
         <summary>Further Ideas</summary>
 
-        <details id="sec-signed-variant-zigzag-encoding" no-open="true">
+        <details id="sec-signed-variant-zigzag-encoding" open="true">
           <summary>Signed Variant: ZigZag Encoding</summary>
           <p>So far we have used UTF-8000 to encode codepoints, aka non-negative integers, aka unsigned integers. I have come up with a couple of modified interpretations of the content bits which allow us to encode the <em>entire</em> integers, aka the signed integers.</p>
           <p>We make use of a marvelous bijective mapping between the signed integers and unsigned integers called the <q>zigzag function</q> that remains a bijection when restricting to the respective <code>n</code>-bit ranges. We use this as a final layer at the beginning/end of the standard UTF-8000 encoding/decoding procedure.</p>
@@ -1945,7 +1945,7 @@
           <p>The only external metadata needed when decoding a stream of UTF-8000 bytes is <q>is this unsigned or signed?</q>. This is no different to decoding a stream of raw bytes, or inspecting fixed-width integers stored in two's complement form in a CPU register: it's up to the programmer's use-case to know whether signed or unsigned is expected.</p>
         </details>
 
-        <details id="sec-utf-16k" no-open="true">
+        <details id="sec-utf-16k" open="true">
           <summary>UTF-16K</summary>
           <p>Could we apply some techniques from this document to also extend UTF-16? Yes, but at the cost of forbidding more codepoints from being encoded similar to the surrogate range <code>U+D800</code> to <code>U+DFFF</code>.</p>
 
@@ -2237,7 +2237,7 @@
           <p>For modern choices UTF-8 / UTF-8000 is undoubtedly the way to go.</p>
         </details>
 
-        <details id="sec-utf-32k" no-open="true">
+        <details id="sec-utf-32k" open="true">
           <summary>UTF-32K</summary>
           <p>In the same manner that ASCII is extended by UTF-8 and UTF-8000, UTF-32 could also be extended to be a multi-<q>byte</q> (32-bit chunk) encoding scheme.</p>
 
@@ -2334,13 +2334,13 @@
         </details>
       </details>
 
-      <details id="sec-rejected-alternatives" no-open="true">
+      <details id="sec-rejected-alternatives" open="true">
         <summary>Rejected Alternatives</summary>
         <p>Although UTF-8000 extends <q>naturally</q> from UTF-8, is it still the best approach? Are there any better alternatives that <q>engineer</q> an extension from UTF-8, just as UTF-8 <a href="#sec-intuitive-derivation-engineer:~:text=the architecting of UTF-8 was not purely a mathematics problem, but was also an engineering problem">engineers</a> an extension from ASCII?</p>
 
         <p>We rule out a few alternatives in this section. It's good to document the suboptimal solutions (and outright failures) so that we can work towards success. I've done that plenty of times with my own ideas don't worry! Feel satisfied in having at least made an attempt.</p>
 
-        <details id="sec-rejected-ascvi" no-open="true">
+        <details id="sec-rejected-ascvi" open="true">
           <summary>ASCVI</summary>
           <p>What if ASCII were only six-bit instead of seven-bit? Would this make extending to multi-byte code units more pleasant?</p>
 
@@ -4221,7 +4221,7 @@
           <p>I don't wish to dunk on his document too hard, but I'm greatly relieved that he failed to derive the infinite extension mechanism. It's not just for my ego's sake, but because I do not wish for UTF-8(000) to be associated with all the other junk in his specification.</p>
         </details>
 
-        <details id="sec-rejected-do-nothing" no-open="true">
+        <details id="sec-rejected-do-nothing" open="true">
           <summary>Do Nothing</summary>
           <p>Why bother publishing this now and making so much noise? As of <a href="https://www.unicode.org/versions/stats/charcountv17_0.html">Unicode Version 17.0</a>, September 9th 2025, only 299,448 of 1,114,112 (27%) codepoints have been designated.</p>
           <blockquote id="jfk-quote">
@@ -4243,7 +4243,7 @@
         </details>
       </details>
 
-      <details id="sec-reference-implementation" no-open="true">
+      <details id="sec-reference-implementation" open="true">
         <summary>Reference Implementation and Tools</summary>
         <p>Working reference implementation in Python with comprehensive code documentation is available on GitHub as <a href="https://github.com/UTF-8000/UTF-8000-Python">UTF-8000/UTF-8000-Python</a>.</p>
         <p>It can be installed as a PyPI package using <code class="shell-command">$ pipx install UTF-8000</code> which provides the command line utility <code>utf-8000</code>.</p>
@@ -4253,7 +4253,7 @@
         <p>The <code class="shell-command">$ utf-8000 decode</code> subcommand reads UTF-8000 bytes from stdin and feeds them to an incremental decoder, writing the decoded codepoints to stdout.</p>
       </details>
 
-      <details id="sec-naming" no-open="true">
+      <details id="sec-naming" open="true">
         <summary>Naming</summary>
         <p>In the development phase of this project I have been using the codename <q>UTF-8000</q>, but I find myself increasingly drawn to <q>UTF-8K</q>.</p>
         <p>Below is a comparison of different potential names, and I am open to suggestions.</p>
@@ -4320,7 +4320,7 @@
         <p>The <q>U</q> in <q>UTF-8</q> could also be read as <q>Unsigned</q>, ie <q>Unsigned Transformation Format 8</q>. Thus we could take inspiration and write <q>STF-8</q> for <q>Signed Transformation Format 8</q>.</p>
       </details>
 
-      <details id="sec-logo" no-open="true">
+      <details id="sec-logo" open="true">
         <summary>Logo</summary>
         <p>UTF-8 does not have a logo. I had a bit of fun designing a logo for UTF-8000. I made it Romanesque but simple.</p>
         <p>It's an eagle with <q>UTF</q> written across its wings and chest. The Roman numerals for <q>8</q>, VIII, flank its head.</p>
@@ -4336,7 +4336,7 @@
         <p>The Git repo containing these images is available on GitHub as <a href="https://github.com/UTF-8000/UTF-8000-Images">UTF-8000/UTF-8000-Images</a>.</p>
       </details>
 
-      <details id="sec-licensing" no-open="true">
+      <details id="sec-licensing" open="true">
         <summary>Licensing / Copyright (Copyleft)</summary>
         <p>As creator of UTF-8000 I want the liberty with which UTF-8000 (the algorithm) can be used to be no less permissible than UTF-8 and ASCII before it. This belongs to everyone. Live Free or Die.</p>
         <p>
@@ -4353,7 +4353,7 @@
         </p>
       </details>
 
-      <details id="sec-thanks" no-open="true">
+      <details id="sec-thanks" open="true">
         <summary>Thanks</summary>
         <p>Bell Labs:</p>
         <ul>
@@ -4373,7 +4373,7 @@
         </ul>
       </details>
 
-      <details id="sec-contact" no-open="true">
+      <details id="sec-contact" open="true">
         <summary>Contact / Epilogue</summary>
         <blockquote>
           <p><q>To think of these stars that you see overhead at night, these vast worlds which we can never reach. I would annex the planets if I could.</q></p>
