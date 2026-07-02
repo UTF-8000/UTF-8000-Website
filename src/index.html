@@ -555,7 +555,12 @@
           <li>It has 4 mandatory content bits, as opposed to 5 for all longer code units. See the glossary section for <a href="#def-mandatory-content-bits">mandatory content bits</a> for an explanation.</li>
         </ul>
         <p>The remarkable fact that UTF-8000 does not introduce any new special cases in extending UTF-8 is confirmation to me that this is the canonical, correct way to extend UTF-8. In other words UTF-8 in its current restricted 4 byte form <em>is</em> UTF-8000, but only a small part of it.</p>
-        <p>The fact that we are even able to extend in the first place is also testament to the clever planning and care that Ken Thompson and Rob Pike put into the architecture of UTF-8, which we ensure to maintain as we extend to UTF-8000. Unary code codewords for the start bits sequences, which form a self-similar tree, were a great choice being simple and extensible. This is why I think of UTF-8 as the capstone of the Unix Philosophy.</p>
+        <p>
+          The fact that we are even able to extend in the first place is also testament to the clever planning and care that Ken Thompson and Rob Pike put into the architecture of UTF-8, which we ensure to maintain as we extend to UTF-8000. Unary code codewords for the start bits sequences, which form a self-similar tree, were a great choice being simple and extensible. In the <a href="https://www.cl.cam.ac.uk/~mgk25/ucs/utf-8-history.txt#:~:text=111111xx">earliest draft</a> of UTF-8, the six-byte start-byte looked like <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">1111</span><span class="utf-8000-bits-content-mandatory">xx</span></code
+          >. This was changed a <a href="https://www.cl.cam.ac.uk/~mgk25/ucs/utf-8-history.txt#:~:text=1111110v">few days later</a> to <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">11110</span><span class="utf-8000-bits-content-mandatory">x</span></code
+          >. That way the number of content bits is not a special case, and the start bits don't saturate the unary code binary tree, leaving the door open for our future expansion.
+        </p>
+        <p>This is why I think of UTF-8 as the capstone of the Unix Philosophy.</p>
 
         <h3 id="sec-properties-information-rate">Information Rate</h3>
         <p>What proportion of a code unit is content bits?</p>
@@ -4148,10 +4153,7 @@
           <p>- <a href="https://en.wikipedia.org/wiki/Jonathan_Bowden">Jonathan Bowden</a>, English cultural orator.</p>
           <p>(As a proud alumnus of <a href="https://en.wikipedia.org/wiki/Girton_College,_Cambridge">Girton College</a> I do feel compelled to comment that <q>man</q> should be read in the Lockean sense of <q>mankind</q>!)</p>
         </blockquote>
-        <p>
-          The world has been changed at least twice by Ken Thompson, with Unix and UTF-8. Unix was first written in solitude, in three weeks of the summer of 1969 (the same time as the <a href="#jfk-quote">Moon landing</a>), at Bell Labs on a teletypewriter attached to a spare PDP computer. UTF-8 was invented in one night of autumn 1992, at a New Jersey diner on a placemat, with <a href="https://www.cl.cam.ac.uk/~mgk25/ucs/utf-8-history.txt#:~:text=111111xx">a slight tweak</a> a couple of days later changing the six-byte start-byte from <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">1111</span><span class="utf-8000-bits-content-mandatory">xx</span></code> to <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">11110</span><span class="utf-8000-bits-content-mandatory">x</span></code
-          >. (That way the number of content bits is not a special case, and the start bits don't saturate the unary code binary tree, leaving open the door for future expansion!).
-        </p>
+        <p>The world has been changed at least twice by Ken Thompson, with Unix and UTF-8. Unix was first written in solitude, in three weeks of the summer of 1969 (the same time as the <a href="#jfk-quote">Moon landing</a>), at Bell Labs on a teletypewriter attached to a spare PDP computer. UTF-8 was invented in one night of autumn 1992, at a New Jersey diner on a placemat, with <a href="#sec-properties-special-cases:~:text=In the earliest draft,days later to 1111110x.">a slight tweak</a> a few days later.</p>
         <p>I, <a href="https://www.jb2170.com/">Jay Berry</a>, have so far written this document alone in the summer of 2026, realizing that my reference implementation from autumn 2024 was a nontrivial discovery. Do say hi on <a href="https://github.com/UTF-8000">GitHub</a> if you have any questions or improvements.</p>
       </details>
       <p>Last updated <time datetime="2026-06-25">2026-06-25</time>.</p>
