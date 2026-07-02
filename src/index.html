@@ -913,7 +913,8 @@
             </tr>
           </tbody>
         </table>
-        <p>All bytes except 0xC0 and 0xC1 can appear in a valid UTF-8000 stream. See the glossary section for <a href="#def-overlong-encoding">overlong encoding</a> for an explanation of why those two bytes never appear.</p>
+        <p>All bytes except 0xC0 and 0xC1, colored in <span style="color: tomato">tomato</span> red, can appear in a valid UTF-8000 stream. See the glossary section for <a href="#def-overlong-encoding">overlong encoding</a> for an explanation of why those two bytes never appear.</p>
+        <p>ASCII, colored in <span style="color: gold">gold</span> yellow, occupies the first half of the table, being 7-bit. Continuation bytes occupy the region colored in <span style="color: sandybrown">sandybrown</span> orange. All other bytes are first bytes for multi-byte code units, whose lengths are indicated in the table.</p>
 
         <h3 id="sec-properties-strcmp-ordering"><code>strcmp(3)</code> Ordering</h3>
         <p>Inherited from UTF-8 and maintained in UTF-8000.</p>
