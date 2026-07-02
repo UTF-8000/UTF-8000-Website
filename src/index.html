@@ -570,6 +570,15 @@
         <h3 id="sec-properties-self-synchronization">Self-Synchronization</h3>
         <p>Inherited from UTF-8 and maintained in UTF-8000.</p>
         <p>See the glossary section for <a href="#def-self-synchronization-prefix">self-synchronization prefix</a> for an explanation of self-synchronization.</p>
+        <p>
+          Here's a bit of history: Self-synchronization is one of the reasons why Ken Thompson and Rob Pike decided to design UTF-8, to supersede the earlier <a href="https://www.cl.cam.ac.uk/~mgk25/ucs/utf-8-history.txt#:~:text=110zzzzz 1yyyyyyy 1xxxxxxx">FSS-UTF draft</a> by Dave Prosser et al. FSS-UTF proposed a design like eg
+          <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-optional">xxxxx</span></code>
+          <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-optional">xxxxxxx</span></code>
+          <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-optional">xxxxxxx</span></code>
+          for three-byte code units. The problem with it is that one cannot distinguish between first bytes (<code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-optional">xxxxx</span></code
+          >) and continuation bytes (<code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-optional">10xxxxx</span></code
+          >) without knowing the prior history of a stream. The UTF-8 fix is to make first byte and continuation byte values disjoint from each other, as one can witness in the <a href="#sec-properties-byte-map">byte map</a> below. I have not put Prosser's draft into the rejected ideas section as it has already been formally addressed and superseded by UTF-8.
+        </p>
 
         <h3 id="sec-properties-self-punctuation">Self-Punctuation</h3>
         <p>Inherited from UTF-8 and maintained in UTF-8000.</p>
