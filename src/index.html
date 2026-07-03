@@ -1371,8 +1371,126 @@
         <p>Without the color highlighting this is how most people think about UTF-8: a start byte whose prefix of <code>n</code> <code>1</code> bits and a terminating <code>0</code> bit provides both self-synchronization and self-punctuation, and continuation bytes using a short prefix of <code>10</code> for space-efficient encoding. This makes sense for a small number of bytes, but the trick to unlock a perspective of infinite extensibility is to split this tree into the self-synchronization part and self-punctuation part; ie we un-product those prefix-free codes. Failing to do this leads to the rejected alternative <a href="#sec-rejected-utf-infinity">UTF-Infinity</a>.</p>
       </details>
 
-      <details id="sec-encoding" open="true">
+      <details id="sec-encoding" no-open="true">
         <summary>Encoding</summary>
+        <p>This section is based off the <a href="#sec-reference-implementation">reference implementation</a> which is written in Python. It is well documented, and is more specific on how to use bitwise operations. This is an abridged HTML version.</p>
+        <p>Suppose that we have an unsigned integer <code>n</code> that we want to encode in UTF-8000. Initialize an empty dynamic array of bytes <code>ret_ints</code> that will store the UTF-8000 code unit.</p>
+        <p>If <code>n &lt; 0x80</code>, eg <code>n = 0x41</code>, then insert <code>n</code> at the head of <code>ret_ints</code> and we are done. This is the ASCII byte for <code>n</code>, which in our example of <code>n = 0x41</code> is a capital letter a, <code>'A'</code>.</p>
+        <p>Otherwise for <code>n &ge; 0x80</code>, eg <code>n = 0x0321C0FFEE8086</code>, we use UTF-8000. Initialize an integer counter <code>n_bits_content_occupied</code> to zero.</p>
+        <p>
+          Our example <code>n</code>'s content bits look like <code class="utf-8000-bits"><span class="utf-8000-bits-content-optional">11 001000 011100 000011 111111 111011 101000 000010 000110</span></code> as a big raw number, with spaces added for visual ease.
+        </p>
+        <p>
+          While <code>n</code> has more than 6 content bits, aka <code>n &gt; 63 = </code><code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">111111</span></code
+          >, extract the least-significant 6 bits of <code>n</code> and insert them at the head of <code>ret_ints</code>, incrementing <code>n_bits_content_occupied</code> by 6 and downwards bitshifting <code>n</code> by 6.
+        </p>
+
+        <p>
+          <code>n_bits_content_occupied = 48</code>, <code>n = 0b</code><code class="utf-8000-bits"><span class="utf-8000-bits-content-optional">11</span></code
+          >,
+        </p>
+        <span>
+          <code>ret_ints</code>:
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">001000</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">011100</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">000011</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">111111</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">111011</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">101000</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">000010</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">000110</span></code>
+        </span>
+
+        <p>Now insert the rest of <code>n</code> at the head of <code>ret_ints</code>. Count the number of bits left in <code>n</code> by downwards bitshifting <code>n</code> one bit at a time while it is non-zero. This is between 1 and 6 (inclusive), which we also add to <code>n_bits_content_occupied</code>.</p>
+
+        <p><code>n_bits_content_occupied = 50</code>, <code>n = 0</code>,</p>
+        <span>
+          <code>ret_ints</code>:
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">000000</span><span class="utf-8000-bits-content-optional">11</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">001000</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">011100</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">000011</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">111111</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">111011</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">101000</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">000010</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">000110</span></code>
+        </span>
+
+        <p>Now we calculate how many bytes our UTF-8000 code unit requires, <code>n_utf_8000_bytes_needed</code>. We know that a <code>k</code>-byte code unit has capacity for <code>5k+1</code> content bits. Therefore <code>⌈(n_bits_content_occupied-1) / 5⌉</code> is the sufficient and minimal answer. Any larger code unit size would lead to an overlong encoding! For our example <code>n_utf_8000_bytes_needed = ⌈(50-1) / 5⌉ = 10</code>.</p>
+        <p>Leftwards pad <code>ret_ints</code> with empty bytes to the length <code>n_utf_8000_bytes_needed</code>.</p>
+
+        <span>
+          <code>ret_ints</code>:
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00000000</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">000000</span><span class="utf-8000-bits-content-optional">11</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">001000</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">011100</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">000011</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">111111</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">111011</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">101000</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">000010</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">000110</span></code>
+        </span>
+
+        <p>
+          Now we add the start bits. The number of <code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code> start bits is equal to two less than the number of bytes in the code unit, which we just calculated. We therefore calculate <code>q, r = divmod(n_utf_8000_bytes_needed-2, 6)</code>, which tells us we need <code>q</code> hextets full of <code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code> start bits, and a final hextet of zero to five <code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code> bits, which also has space to contain the terminating <code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code> bit. In our example <code>(q = 1, r = 2) = divmod(10-2, 6)</code>.
+        </p>
+        <p>Apply the start bits across <code>ret_ints</code> using bitwise-or. The final start bits hextet can be given by <code>((1 << r) - 1) << (6 - r)</code>.</p>
+
+        <span>
+          <code>ret_ints</code>:
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-start">111111</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-unknown">0</span><span class="utf-8000-bits-content-optional">11</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">001000</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">011100</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">000011</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">111111</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">111011</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">101000</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">000010</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">000110</span></code>
+        </span>
+
+        <p>Any of the lowest six bits of each byte that are not set by this point, unoccupied by content bits and untouched by start bits, are really content bits that the <code>k</code>-byte capacity provides but that we didn't need. Our example's <code>n_bits_content_occupied = 50</code> is one less than <code>5k+1 = 5*10+1 = 51</code>. We can color highlight it green as a content bit for completion's sake.</p>
+
+        <span>
+          <code>ret_ints</code>:
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-start">111111</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-optional">011</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">001000</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">011100</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">000011</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">111111</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">111011</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">101000</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">000010</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-optional">000110</span></code>
+        </span>
+
+        <p>
+          Now we crown the bytes with their self-synchronization prefixes, which delivers us from hextets to UTF-8000 octets. The first byte's self-synchronization prefix is
+          <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">11</span></code
+          >, and continuation bytes have <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">10</span></code
+          >.
+        </p>
+
+        <span>
+          <code>ret_ints</code>:
+          <code class="utf-8000-byte"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111111</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-optional">011</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">001000</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">011100</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">000011</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">111111</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">111011</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">101000</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">000010</span></code>
+          <code class="utf-8000-byte"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">000110</span></code>
+        </span>
+
+        <p>And we're done!</p>
       </details>
 
       <details id="sec-decoding" open="true">
