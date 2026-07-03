@@ -24,7 +24,7 @@
         <h1>UTF-8000</h1>
         <p>Unlimited UTF-8! ASCII ⊆ UTF-8 ⊆ UTF-8000.</p>
         <p>No special cases introduced. All <a href="#sec-properties">properties</a> preserved.</p>
-        <p>Try out the <a href="#sec-reference-implementation">reference implementation</a> with <code>$ pipx install UTF-8000</code>.</p>
+        <p>Try out the <a href="#sec-reference-implementation">reference implementation</a> with <code class="shell-command">$ pipx install UTF-8000</code>.</p>
       </div>
 
       <details id="sec-tldr" no-open="true">
@@ -1938,7 +1938,7 @@
 
           <h3>Verdict</h3>
           <p>
-            I like it! I'll add it to the <a href="#sec-reference-implementation">reference implementation</a> when I get chance. It will most likely be a flag <q><code>-z</code></q> for <q>zigzag</q> used like <code>$ utf-8000 info -z -- -67</code> showing <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">0001</span><span class="utf-8000-bits-content-optional">0</span></code> <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">000101</span></code
+            I like it! I'll add it to the <a href="#sec-reference-implementation">reference implementation</a> when I get chance. It will most likely be a flag <q><code>-z</code></q> for <q>zigzag</q> used like <code class="shell-command">$ utf-8000 info -z -- -67</code> showing <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">0001</span><span class="utf-8000-bits-content-optional">0</span></code> <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">000101</span></code
             >.
           </p>
           <p>This zigzag variant has a big advantage over the rejected <a href="#sec-rejected-signed-variant-twos-complement">two's complement signed variant</a> in that we don't need to change how we do overlong checking from the standard UTF-8000 method. This means that we can effectively separate out into <q>layers</q>: 1) the overlong checking of code units and the extracting of their content bits, from 2) the further decoding of the content bits eg to a signed integer.</p>
@@ -4246,11 +4246,11 @@
       <details id="sec-reference-implementation" no-open="true">
         <summary>Reference Implementation and Tools</summary>
         <p>Working reference implementation in Python with comprehensive code documentation is available on GitHub as <a href="https://github.com/UTF-8000/UTF-8000-Python">UTF-8000/UTF-8000-Python</a>.</p>
-        <p>It can be installed as a PyPI package using <code>$ pipx install UTF-8000</code> which provides the command line utility <code>utf-8000</code>.</p>
-        <p>The <code>$ utf-8000 info</code> subcommand displays info about a codepoint encoded in UTF-8000, with useful bit highlighting.</p>
+        <p>It can be installed as a PyPI package using <code class="shell-command">$ pipx install UTF-8000</code> which provides the command line utility <code>utf-8000</code>.</p>
+        <p>The <code class="shell-command">$ utf-8000 info</code> subcommand displays info about a codepoint encoded in UTF-8000, with useful bit highlighting.</p>
         <img src="/utf-8000-info-example.png" />
-        <p>The <code>$ utf-8000 encode</code> subcommand reads codepoints from stdin and writes the raw UTF-8000 bytes to stdout.</p>
-        <p>The <code>$ utf-8000 decode</code> subcommand reads UTF-8000 bytes from stdin and feeds them to an incremental decoder, writing the decoded codepoints to stdout.</p>
+        <p>The <code class="shell-command">$ utf-8000 encode</code> subcommand reads codepoints from stdin and writes the raw UTF-8000 bytes to stdout.</p>
+        <p>The <code class="shell-command">$ utf-8000 decode</code> subcommand reads UTF-8000 bytes from stdin and feeds them to an incremental decoder, writing the decoded codepoints to stdout.</p>
       </details>
 
       <details id="sec-naming" no-open="true">
