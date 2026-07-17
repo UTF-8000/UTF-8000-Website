@@ -17,3 +17,21 @@ Happy Fourth of July! Consider this a 250th birthday gift from Great Britain (if
 
 Thanks,
 Jay Berry
+
+---
+
+Date: Jul 16, 2026, 11:29 PM
+From: Ken Thompson <kenbob@gmail.com>
+To: Jay Berry <email@jb2170.com>
+Subject: Re: I have extended UTF-8 infinitely!
+
+your first 2 extensions (5 and 6 bytes) were clearly envisioned.
+the standard (up to 4 bytes) was created to cover the size of
+unicode. i thought any more description would be a waste of
+paper. i think your extension from 7 to 8 bytes is a little hoaky.
+i requires reading the whole string rather than "knowing" the
+number of follow on bytes. so, i think the only thing new is the
+7 byte version.
+
+i appreciate the mail, but i really dont think it is useful. it is
+like replacing ipv6 with ipv50.
