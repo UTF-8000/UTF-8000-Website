@@ -2303,6 +2303,8 @@
           <summary>UTF-32K</summary>
           <p>In the same manner that ASCII is extended by UTF-8 and UTF-8000, UTF-32 could also be extended to be a multi-<q>byte</q> (32-bit chunk) encoding scheme.</p>
 
+          <p>Do we really want this though? Is UTF-32 meant to be variable-width, or is it meant to represent the raw codepoint, decoded and stored in memory as a fixed-width integer? I've written this section to demonstrate that ASCVI can be applied to a quantum as small as 3 bits (seriously lol), or large like 32 bits.</p>
+
           <h3>Source</h3>
           <p>Myself: It seemed obvious how this follows from UTF-8000.</p>
 
@@ -2392,7 +2394,8 @@
 
           <h3>Verdict</h3>
           <p>Not our greatest priority.</p>
-          <p>UTF-32 is hardly ever used for transmission or storage due to its inefficiency and endianness. Its main use is for when one decodes UTF-8 or UTF-16 to <code>int32_t</code> integers (UTF-32) for use inside a program.</p>
+          <p>UTF-32 is hardly ever used for transmission or storage due to its inefficiency and endianness.</p>
+          <p>As I wrote in the intro, UTF-32's main use is as a <b>non</b>-variable-width container, for when one decodes UTF-8 or UTF-16 to <code>int32_t</code> integers (UTF-32) for use inside a program. UTF-32K would be an anti-pattern / counterproductive.</p>
         </details>
       </details>
 
