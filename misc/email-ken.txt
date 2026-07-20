@@ -1,6 +1,6 @@
-Date: 2026/07/04
-From: email@jb2170.com
-To: kenbob@gmail.com
+Date: Jul 4, 2026, 1:13 AM
+From: Jay Berry <email@jb2170.com>
+To: Ken Thompson <kenbob@gmail.com>
 Subject: I have extended UTF-8 infinitely!
 
 Hi Ken,
@@ -35,7 +35,7 @@ Jay Berry
 
 ---
 
-Date: Jul 16, 2026, 11:29 PM
+Date: Jul 16, 2026, 11:29 PM
 From: Ken Thompson <kenbob@gmail.com>
 To: Jay Berry <email@jb2170.com>
 Subject: Re: I have extended UTF-8 infinitely!
@@ -53,9 +53,9 @@ like replacing ipv6 with ipv50.
 
 ---
 
-Date: 2026/07/17
-From: email@jb2170.com
-To: kenbob@gmail.com
+Date: Jul 17, 2026, 11:13 PM
+From: Jay Berry <email@jb2170.com>
+To: Ken Thompson <kenbob@gmail.com>
 Subject: Re: I have extended UTF-8 infinitely!
 
 Hi Ken,
@@ -82,7 +82,7 @@ Jay
 
 ---
 
-Date: Jul 18, 2026, 5:41 AM
+Date: Jul 18, 2026, 5:41 AM
 From: Ken Thompson <kenbob@gmail.com>
 To: Jay Berry <email@jb2170.com>
 Subject: Re: I have extended UTF-8 infinitely!
